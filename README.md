@@ -1,5 +1,6 @@
 # CallBridge
 Start Calls &amp; send SMS directly from any software or webpage, using YOUR smartphone.
+Lancez vos Appels & envoyez vos SMS directement depuis n'importe quel logiciel ou page web, en utilisant VOTRE smartphone
 
 <h1>CallBridge+ (France)</h1>
 
