@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.0
+// @version     1.02
 // @include     http://www.pap.fr/annonce/*
 // @include     https://www.pap.fr/annonce/*
 // @include     https://www.pagesjaunes.fr/recherche/*
