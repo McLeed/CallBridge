@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.01
+// @version     1.0
 // @include     http://www.pap.fr/annonce/*
 // @include     https://www.pap.fr/annonce/*
 // @include     https://www.pagesjaunes.fr/recherche/*
@@ -33,6 +33,7 @@
 // ==/UserScript==
 
 $("head").append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css\">");
+
 
 // Quel Site
 var quSite=0;
@@ -240,15 +241,16 @@ switch (quSite){
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function (){
             if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            var mbouton = document.getElementsByClassName('button-orange large phoneNumber trackable')[0];
-            if (mbouton) mbouton.firstElementChild.click();
+            var mbouton = document.getElementsByClassName('button-orange large phoneNumber trackable');
+            if (mbouton.length=0) mbouton = document.getElementsByClassName('button-blue large trackable');
+            if (mbouton.length>0) mbouton[0].firstElementChild.click();
             setTimeout(function() {
                 var Notel = document.getElementsByClassName('phone_number font-size-up');
                 var sText = document.getElementsByClassName('no-border');
                 var sTex2 = document.getElementsByClassName('item_price clearfix')
                 var sTex3 = document.getElementsByClassName('line line_city');
                 var sTex4 = chAffichageClass(sTex3[0].innerHTML,"value");
-                if (Notel)	{Put_Notification("Call",Notel[0].firstElementChild.innerHTML,1,sansBlanc(sText[0].innerHTML)+' '+sansBlanc(sTex2[0].innerHTML)+" "+sTex4);}
+                if (Notel)	{Put_Notification("Call",Notel[0].firstElementChild.innerHTML,1,sansBlanc(sText[0].innerHTML)+' '+sansBlanc(chAffichages(sTex2[0].innerHTML))+" "+sTex4);}
             }, 2000);
         };
         break;
@@ -749,7 +751,7 @@ function TheDateTime(){
 var headers = document.getElementsByTagName('h2');
 var menu =  '<li class="uppercase bold trackable" style="text-align: center;text-transform: uppercase;font-weight: 700;">CallBridge Settings</li><br>';
     menu += '<li>Utilisateur (email):</li><li><input type="text" id="cbmail" name="email"></li><br>';
-    menu += '<li>Mot de passe:</li><li><input type="password" id="cbpassword" name="Password"></li><br>';
+    menu += '<li>Mot de passe:</li><li><input type="text" id="cbpassword" name="Password"></li><br>';
     menu += '<li><button id="cbmodepro" type=button title="Vérifier si l\'utilisateur CallBigePro existe">Pro</button> ';
     menu += '<button id="cbmodefree" type=button title="Vérifier si l\'utilisateur CallBigeFree existe">Free</button></li><br>';
     menu += '<li><button id="cbenregistre" type="button" title="Enregistrer le Login + Mot de passe">SAVE</button> ';
@@ -950,6 +952,11 @@ function chBalise(pText,pBalise,pNeme){
 function sansBlanc(pText){
     var d=0,f=0,sRc=String.fromCharCode(10),sNl=String.fromCharCode(13),sortie='';
 
+    // les RC remplacés en blanc
+    for (i=0;i<pText.length;i++)
+        if (pText.substr(i,1)==sRc)  {sortie+=' ';} else {sortie+=pText.substr(i,1);}
+    pText=sortie;sortie='';
+
     // les blancs non sécables sont remplacés
     for (i=0;i<pText.length;i++)
         if (pText.substr(i,6)=='&nbsp;')  {sortie+=' ';i+=5;} else {sortie+=pText.substr(i,1);}
@@ -995,12 +1002,13 @@ function extraitChaine(pText,pIndice,pSep){
 
 // Tout ce qui est affiché <balise>..affiché..</balise>
 function chAffichages(pText){
-    var j=0,k=0,sortie='',sText2='';
+    var j=0,k=0,sortie='',sText2='',k=0;
     for (i=0;i<pText.length;i++){
-        if (pText.substr(i,1)=='>')  {j=1;i++;}
-        if (pText.substr(i,1)=='<')  {j=0;i++;}
+        if (pText.substr(i,1)=='>')  {k=1;j=1;i++;}
+        if (pText.substr(i,1)=='<')  {k=1;j=0;i++;}
         if (j==1) sortie+=pText.substr(i,1);
     }
+    if (k=0) sortie=pText;
     sText2=sortie.replace("&amp;","&");sortie=sText2;
     sText2=sortie.replace("&amp;","&");sortie=sText2;
     return sortie;
@@ -1010,6 +1018,7 @@ function chAffichages(pText){
 function chAffichageClass(pText,pClass){
     var j=0,k=0,sortie='',sText2='';
     var iDebut = pText.indexOf(pClass);
+    if (iDebut<0) return '';
     for (i=iDebut;i<pText.length;i++){
         if (pText.substr(i,1)=='>' && j==0)  {j=1;i++;}
         if (pText.substr(i,1)=='<')  {j=2;i++;}
