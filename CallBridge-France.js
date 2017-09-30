@@ -34,7 +34,6 @@
 
 $("head").append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css\">");
 
-
 // Quel Site
 var quSite=0;
 var lUrl = document.location.href;
