@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.02
+// @version     1.12
 // @include     http://www.pap.fr/annonce/*
 // @include     https://www.pap.fr/annonce/*
 // @include     https://www.pagesjaunes.fr/recherche/*
@@ -20,12 +20,13 @@
 // @include     http://www.lacentrale.fr/*
 // @include     https://occasion.autoplus.fr/*
 // @include     http://occasion.321auto.com/*
+// @include     https://getcallbridge.com/*
 // @author      mcleed
 // @require     http://code.jquery.com/jquery-3.1.0.min.js
-// @resource    icon28    https://getcallbridge.com/wp-content/uploads/2017/01/call28.png
-// @resource    icon28W   https://getcallbridge.com/wp-content/uploads/2017/01/call28white.png
-// @resource    settings28 https://getcallbridge.com/wp-content/uploads/2017/01/settings28.png
-// @resource    settings28W https://getcallbridge.com/wp-content/uploads/2017/01/settings28W.png
+// resource    icon28    https://getcallbridge.com/wp-content/uploads/2017/01/call28.png
+// resource    icon28W   https://getcallbridge.com/wp-content/uploads/2017/01/call28white.png
+// resource    settings28 https://getcallbridge.com/wp-content/uploads/2017/01/settings28.png
+// resource    settings28W https://getcallbridge.com/wp-content/uploads/2017/01/settings28W.png
 // @grant       GM_getResourceText
 // @grant       GM_getResourceURL
 // @grant       GM_getValue
@@ -33,6 +34,15 @@
 // ==/UserScript==
 
 $("head").append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css\">");
+
+// Les 4 images
+var Imgicon28W="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAYAAABoMT8aAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAANPSURBVHjapJRdaBxVGIafc2Znd3Y3m90kZpOuSWriT4I3KgptwIqgVrAXwbS1BateaAuFIqlFVIh3/jdetFC2rdgfmmIuWipIKW1BKFIvqkirtsGq+WltjJKQTTa7bWZ25vPC2XTt7irUDw7DOe/7vd97znznKBHpAPqBacABFDfjKiBAW8maAAEgCXyAiKRFZKWIUGEsF5EVVbAVIrI3AEwBPwHPUB4r/WqxCtglYESJyCngCvBrBdKkb3lJBewuIIWI/CIiq6rY/LfxuIj8qIFcFYv/FXEgHyjO1u0YBngOeFopcFxh/oYAEA0pggGF53nKauo6Pz740s4zxwfBP6BipIA+regueDCd87BMA7vgMZP3aK7VBMIJ3OuZEXvm6oliUqnAO0rRnbM9Cp5m06O1mCyQTIQZnSpw9AeIRxoYPbC2I3/t/LvAYQBdImB6HuRt2P5sHRY5dn+VY+jcHC31FjWJOxg9uJ7s8ElCDe2UOVBK2X9mHZ5fXkfUdEifdUjWRTAiMd4/lWXq8xcwfv8aq/l+wHWKeYsOxLUB6GwKMjItdHdYfLymkSe6wqR7Ddoic+TNJJ7r4NiL+TcFxv5wuDKZ4/JEjgfbohz9LgvBKL3Luhi7/D1b+z9kfGQMx17AcwvlAsqMEI3WMHBylun5Avu2PMzEtQk+6t+AVdvEa1s20t7eimEYaK3LBRCXWFAwTIun0gW+/GyA1riLVd9CY2MDDzz0CPPzWUTkH91UIuApV5nEl9xD+Ju32fPe69xQUV7t28qhA5+yI72fzExm0XC5QCBcqxN3s3C6j/zZ/Ty5+kWWtjazeePL9PSu5fDBTwhZwSI7Vt5IwdgR+8ybq51vdxFKpdBa88a2Pu69r5N9e3dx7MgQbUvb8TwP4HiZgExdHCpcHAzpeOqxeKSOE18cI5OZJRQKorUmdWdL0fowsBvo+TtR5IKIrL+N69wjIuc0/zM0YAD528jNATrgCywDfqtAuu5/wxWwbiCoRGSP/3zfup1ZoNFfnwQSt+AekAwAPwMDFSrEgG3+nzoEzFTgbNJAfZU9vgLM+dU3V+E0aKAJWFMB3Ok/6eEqDlcBnUpEuoC3gHHALunzOaDGn8+WnIEAJtABbP9rAEmWnIMs+vnHAAAAAElFTkSuQmCC"
+
+var Imgicon28= "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAcCAYAAACH81QkAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAQ/SURBVHjanJVbbFRFGMd/M+fsbvfCXtput4WVZms3KF4Wq/BAeAAND16iEaNC5KYkClKjPkh8MEYiMeENEkNABBV48IWABGMiiY3S6INQlYI2YlsKbLns0tButz17zp4zPuysNgQf5Esmk5nvm//8v5lv/iOARUA3cAHIAwFqJoAKMA006Ka0zwZagU5gD8B+YDW3twSwAkj9h38VcMAEzgF9wFqgCniahQs0AfcCbUABMGawNPW6hAC+0LR6Nd2A7iVQAq4BSSCmN5A6HRdYAvwpgN+AU8AGIKKD1IwdhR6rGWkoYBLYDSw0gTHgsnZO8v/sIpAx9SD8wo7fs8BrUmAKIdxyxcV2NQkFAZ8g6Bd4TlV6yjUi7QuOfv68CAPCBGju6IoD2w0pnvWU4vpNB8M0aYxIGgzFzela8wsHw/DR0DIPZ7KwOJlMDhQKhRpI7pktS4RgnlKKv67ZzJsdYuUjAaRbxXIU7S0hRm5YHDoN/nQGe/Qsgwc3P9zcYGUK0GcCGIFw0ACGijb3zw2xa30Le48PcfiMhzB85FrLPLlgFslshpHeY1w5tAHPniDYdo/BpTPUQFSlUnElzbP87FyVou+Pq3z5q4GjArSGPKZiaT466XDl+DpC/QcwI434MwtwyiUbXTAoT4nSdIWl82PEopJ9PeMsf7CZLY/P4nwxyo3pMVq7bD746mdOez6SqU7c6TKObQt0TZAvViiOV/j+7BjlaZe1S1vZdyKPDDYycu4nVj66GH/hF3YePEbB8jN25RJ2xcLzaqUjARz8SDNE34Uqm/fmyXakef+l+7hcBKd4nne6X4ZUjk2b3iBoeMRiUaSUCMG/IKZEmcqmPRXmu+tzWbPrApd7dhK1hgkmkjSEY0xOjNPRkSGWiGJZVr1s1T8gUkg/gTj+9HzuMocY3r+ObVu34ovE8Vybt95+k2++PsqOj3cRjTdSKFxDCIEQtTOt3U4wHpSpDNX+I0wdfhVfqcgrq9fQ1NTEA7mFbNz4Oiuee5FjR45wfXSURKIRANMwEvUH1pNe/m45lYjknG/fS6tACCfW5i1dtgzheiAk2WyW4aFBPvv0E+ak58hoLE616hTHS5PDQxdHxwXQA5zKzY2X1MTNp427u6Tp2u5ofoR8oYQPaGmKkr8xQSoRoqOjU1iW5VNK9fYPDE66ntdVf4AIMzCIjz48T6I8tz7vN6FarWIAoVAY13WFUsoEBhTMqcf1ANu5M/sQOCEBn1apOzEX8JlapRYBjwEhfWNK6+kEcFULdWzGZkpL56L67WyjllsEmNKL6wCjQForWBvQqMXcBcJaCYdMYFDn1qyFuC7GDvAUkNX/0W7Nsu43gCLwhAlkNHr+lnxz+hvpBdYDA8CPt8RIoNMANgLttwmoaPBW4AfgpE53pnUDi4X+O7qBfp17QFOdAsrAbH24DfocPMDS8w8Be/4eADPZkKk6TcpiAAAAAElFTkSuQmCC"
+
+var Imgsettings28="data:image/png;base64,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"
+
+var Imgsettings28W="data:image/png;base64,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"
 
 // Quel Site
 var quSite=0;
@@ -51,7 +61,7 @@ if (lUrl.lastIndexOf("/www.lacentrale.fr/")>=0)                quSite=11; // lac
 if (lUrl.lastIndexOf("/occasion.autoplus.fr/")>=0)             quSite=12; // occasion.autoplus
 if (lUrl.lastIndexOf(".321auto.com/")>=0)                      quSite=13; // 321auto
 if (lUrl.lastIndexOf("//www.pagesjaunes.fr/carte")>=0)         quSite=14; // pagesjaunes CARTE
-
+if (lUrl.lastIndexOf("//getcallbridge.com")>=0)                quSite=15; // getcallbridge
 
 
 // Bouton APPELER long
@@ -59,51 +69,51 @@ var btnAppeler = document.createElement( 'button' );
   btnAppeler.setAttribute( 'type', 'button' );
   btnAppeler.setAttribute( 'style', 'margin-top : 1rem;' );
   btnAppeler.setAttribute( 'title', 'avec CallBridge');
-  btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">   Appeler le numéro';
+  btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
 
 // Bouton APPELER court
 var btnAppel = document.createElement( 'button' );
   btnAppel.setAttribute( 'type', 'button' );
   btnAppel.setAttribute( 'style', 'margin-top : 1rem;' );
   btnAppel.setAttribute( 'title', 'avec CallBridge');
-  btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">';
+  btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">';
 
 // Bouton APPELER court
 var btnAppel2 = document.createElement( 'button' );
   btnAppel2.setAttribute( 'type', 'button' );
   btnAppel2.setAttribute( 'style', 'margin-top : 1rem;' );
   btnAppel2.setAttribute( 'title', 'avec CallBridge');
-  btnAppel2.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">';
+  btnAppel2.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">';
 
 // create button ----SMS ----
 var btnSms = document.createElement( 'button' );
   btnSms.setAttribute( 'value', 'SMS' );
   btnSms.setAttribute( 'type', 'button' );
   btnSms.setAttribute( 'style', 'margin-top : 1rem;' );
-  btnSms.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">sms';
+  btnSms.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">sms';
 
 var btnParametres = document.createElement( 'button' );
   btnParametres.setAttribute( 'value', 'Parametre compte CallBridge' );
-  //btnParametres.setAttribute( 'type', 'button' );
   btnParametres.setAttribute( 'id', 'settings' );
   btnParametres.setAttribute( 'style', 'margin-top : 1rem;' );
-  btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("settings28") + '">   Paramètres CallBridge';
+  btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28 + '">   Paramètres CallBridge';
 
 // 1 ligne
-var UneLigne = document.createElement( 'button' );
-  UneLigne.setAttribute( 'value', 'UneLigne' );
-  UneLigne.setAttribute( 'id', 'UneLigne' );
-  UneLigne.setAttribute( 'style', 'margin-top : 1rem;' );
-  UneLigne.innerHTML = "<br>";
+var UneLigne = document.createElement( 'span' );
+//  UneLigne.setAttribute( 'value', 'UneLigne' );
+//  UneLigne.setAttribute( 'id', 'UneLigne' );
+//  UneLigne.setAttribute( 'style', 'margin-top : 1rem;' );
+    UneLigne.innerHTML = "<br>";
 
 var cbuser = GM_getValue("cbuser", '');
+var sVersion=GM_info.script.version;
 
 switch (quSite){
     case 1: // pap.fr ------------------------------------------------------------------------------
-        btnAppeler.innerHTML = '<img src="'+ GM_getResourceURL("icon28") + '">   Appeler le numéro';
-        btnAppel.innerHTML = '<img src="'+ GM_getResourceURL("icon28") + '">   Appeler le numéro';
-        btnAppel2.innerHTML = '<img src="'+ GM_getResourceURL("icon28") + '">   Appeler le numéro';
-        btnSms.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28") + '"> SMS';
+        btnAppeler.innerHTML = '<img src="'+ Imgicon28 + '">   Appeler le numéro';
+        btnAppel.innerHTML = '<img src="'+ Imgicon28 + '">   Appeler le numéro';
+        btnAppel2.innerHTML = '<img src="'+ Imgicon28 + '">   Appeler le numéro';
+        btnSms.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28 + '"> SMS';
         btnSms.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
         btnAppeler.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
         btnAppel.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
@@ -114,7 +124,6 @@ switch (quSite){
         var mbouton = document.getElementsByClassName("btn-display-phone  btn-telephone");
         mbouton[0].appendChild( btnAppeler );
         mbouton[0].appendChild( btnSms );
-        mbouton[0].appendChild( btnParametres );
         if (mbouton.length>1) {mbouton[1].appendChild( btnAppel );mbouton[1].appendChild( btnParametres );} else {mbouton[0].appendChild( btnParametres );}
         if (mbouton.length>2) {mbouton[2].appendChild( btnAppel2)}
 
@@ -149,7 +158,7 @@ switch (quSite){
             markers[i].setAttribute( 'class', 'item plan value');
             markers[i].setAttribute( 'id', 'appeler'+i);
             markers[i].setAttribute( 'title', 'Avec CallBridge');
-            markers[i].innerHTML = '<a class="pj-link"><img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28") + '"><span class="value">Appeler</span></a>';
+            markers[i].innerHTML = '<a class="pj-link"><img style="vertical-align: middle;" src="'+ Imgicon28 + '"><span class="value">Appeler</span></a>';
             uls[i].appendChild(markers[i]);
             markers[i].onclick = function(){ ClicAppeler(i);};	// <----- !!!
         }
@@ -227,7 +236,7 @@ switch (quSite){
         break;
 
     case 4: // leboncoin ------------------------------------------------------------------------------
-        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28") + '">   Appeler le numéro';
+        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src='+Imgicon28+'>   Appeler le numéro';
         btnAppeler.setAttribute( 'class', 'button-lightgrey large trackable' );
         btnParametres.setAttribute( 'class', 'button-mediumgrey large' );
         btnParametres.setAttribute( 'style', 'margin : 1rem;' );
@@ -255,7 +264,7 @@ switch (quSite){
         break;
 
     case 5 : // seloger.com  ------------------------------------------------------------------------------
-        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">   Appeler le numéro';
+        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
         btnAppeler.setAttribute( 'class', 'b-btn tagClick  ' );
         btnParametres.setAttribute( 'class', 'b-btn b-warn tagClick  ' );
         // Création des boutons callbridge
@@ -279,10 +288,10 @@ switch (quSite){
     case 6 : // paruvendu  ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'im12_cp_form_submit btndetails14_contact a' );
         btnAppel.setAttribute( 'class', 'im12_cp_form_submit btndetails14_contact a' );
-        btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">   Appeler le numéro';
+        btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
         btnAppel2.setAttribute( 'class', 'app' );
         btnParametres.setAttribute( 'class', 'im12_cp_form_submit btndetails14_contact a' );
-        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("settings28W") + '">   Paramètres CallBridge';
+        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '">   Paramètres CallBridge';
         var sClass=document.getElementsByClassName('btndetails14_contact tel_contact')
         sClass[0].appendChild( btnAppeler );
         sClass[0].appendChild( btnParametres );
@@ -341,7 +350,7 @@ switch (quSite){
                 makers[i].setAttribute( 'type', 'button' );
                 makers[i].setAttribute( 'style', 'margin-top : 1rem;' );
                 makers[i].setAttribute( 'title', 'avec CallBridge');
-                makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '"> Appeler Numéro';
+                makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '"> Appeler Numéro';
                 makers[i].setAttribute( 'class', 'btn green icn-only poplight scrollToTopButton' );
                 makers[i].style.fontWeight = '300';
                 makers[i].style.display = 'block';
@@ -371,7 +380,7 @@ switch (quSite){
                 makers[i] = document.createElement( 'button' );
                 makers[i].setAttribute( 'type', 'button' );
                 makers[i].setAttribute( 'style', 'margin-top : 1rem;' );
-                makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("settings28W") + '"> Settings';
+                makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"> Settings';
                 makers[i].setAttribute( 'class', 'btn green icn-only poplight scrollToTopButton' );
                 makers[i].style.fontWeight = '300';
                 makers[i].style.display = 'block';
@@ -379,7 +388,6 @@ switch (quSite){
                 makers[i].style.padding = '7px 14px';
                 makers[i].style.color = 'white';
                 makers[i].style.border = '0px';
-//                pLiens[i].appendChild(UneLigne);
                 pLiens[i].appendChild(makers[i]);
 
                 makers[i].onclick=function (){
@@ -406,14 +414,14 @@ switch (quSite){
         btnAppeler1.setAttribute( 'style', 'margin-top : 0rem;' );
         btnAppeler1.setAttribute( 'title', 'avec CallBridge');
         btnAppeler1.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
-        btnAppeler1.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28") + '"><a>   Appeler le numéro</a>';
+        btnAppeler1.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28 + '"><a>   Appeler le numéro</a>';
 
         var btnAppeler2 = document.createElement( 'button' );
         btnAppeler2.setAttribute( 'type', 'button' );
         btnAppeler2.setAttribute( 'style', 'margin-top : 0rem;' );
         btnAppeler2.setAttribute( 'title', 'avec CallBridge');
         btnAppeler2.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
-        btnAppeler2.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28") + '"><a>   Appeler le numéro</a>';
+        btnAppeler2.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28 + '"><a>   Appeler le numéro</a>';
 
         btnParametres.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
         // Création des boutons callbridge
@@ -450,9 +458,9 @@ switch (quSite){
 
     case 9 : // topannonces.fr ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'btn-secondary w-275 h-40 blue contacterAdv w-190 w-border' );
-        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '"><b>   Appeler le numéro</b>';
+        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '"><b>   Appeler le numéro</b>';
         btnParametres.setAttribute( 'class', 'btn-secondary w-275 h-40 blue contacterAdv w-190 w-border' );
-        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("settings28W") + '"><b>   Paramètres CallBridge</b>';
+        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"><b>   Paramètres CallBridge</b>';
         // Création des boutons callbridge
         var cbuser = GM_getValue("cbuser", '');
         var lClass="span12 border-button-zone";
@@ -481,7 +489,7 @@ switch (quSite){
     case 10 : // zoomcar.fr ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'btn btn-flat telephone ' ); // modal-trigger
         btnParametres.setAttribute( 'class', 'btn btn-flat mail ' );
-        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("settings28W") + '"><b>   Paramètres CallBridge</b>';
+        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"><b>   Paramètres CallBridge</b>';
         // Création des boutons callbridge
         var cbuser = GM_getValue("cbuser", '');
         var lClass="contact-button";
@@ -499,7 +507,7 @@ switch (quSite){
             makers[i].setAttribute( 'type', 'button' );
             makers[i].setAttribute( 'style', 'margin-top : 1rem;' );
             makers[i].setAttribute( 'title', 'avec CallBridge');
-            makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">   Appeler le numéro';
+            makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
             makers[i].setAttribute( 'class', 'btn btn-flat telephone ' );
             makers[i].style.fontWeight = '300';
             makers[i].onclick = function ()  {jappelle10();} ;
@@ -546,14 +554,14 @@ switch (quSite){
         btnAppel.setAttribute( 'style', 'width : 235px;' );
         btnParametres.setAttribute( 'style', 'width : 235px;' );
         btnParametres.setAttribute( 'class', 'btnRed' );
-        btnParametres.innerHTML = '<img style="vertical-align: middle; margin-left : 0.2rem; margin-right : 0rem;" src="'+ GM_getResourceURL("settings28W") + '">   Settings CallBridge    ';
-        btnAppel.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ GM_getResourceURL("icon28W") + '">  Appeler le numéro      ';
-        btnAppeler.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ GM_getResourceURL("icon28W") + '">  Appeler le numéro';
+        btnParametres.innerHTML = '<img style="vertical-align: middle; margin-left : 0.2rem; margin-right : 0rem;" src="'+ Imgsettings28W + '">   Settings CallBridge    ';
+        btnAppel.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ Imgicon28W + '">  Appeler le numéro      ';
+        btnAppeler.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ Imgicon28W + '">  Appeler le numéro';
         // Création des boutons callbridge
         var cbuser = GM_getValue("cbuser", '');
         var mBox = document.getElementsByClassName("boxContent");
         if (mBox.length>0) {mBox[0].appendChild( btnAppeler );mBox[0].appendChild( btnParametres );}
-        if (mBox.length>1) {mBox[1].appendChild( UneLigne );mBox[1].appendChild( btnAppel );mBox[1].appendChild( btnParametres );}
+        if (mBox.length>1) {mBox[1].appendChild( btnAppel );mBox[1].appendChild( btnParametres );}
 
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function (){ jAppelle11() }
@@ -572,7 +580,7 @@ switch (quSite){
     case 12 : // occasion.autoplus.fr ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'pa-btn js-show-phone' );
         btnParametres.setAttribute( 'class', 'pa-btn js-show-phone' );
-        btnParametres.innerHTML = '<img src="'+ GM_getResourceURL("settings28") + '">Settings CallBridge';
+        btnParametres.innerHTML = '<img src="'+ Imgsettings28 + '">Settings CallBridge';
         // Création des boutons callbridge
         var cbuser = GM_getValue("cbuser", '');
         var lClass="pa-contact";
@@ -597,10 +605,10 @@ switch (quSite){
         break;
     case 13 : // http://occasion.321auto.com ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'btn bold' );
-        btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ GM_getResourceURL("icon28W") + '">   Appeler le numéro';
+        btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
         btnAppel.setAttribute( 'class', 'btn lsearch bold' );
         btnParametres.setAttribute( 'class', 'btn bold' );
-        btnParametres.innerHTML = '<img src="'+ GM_getResourceURL("settings28") + '">Settings CallBridge';
+        btnParametres.innerHTML = '<img src="'+ Imgsettings28 + '">Settings CallBridge';
         // Création des boutons callbridge
         var cbuser = GM_getValue("cbuser", '');
         var mBox2 = document.getElementsByClassName("contact_action2");
@@ -639,6 +647,14 @@ switch (quSite){
             var sText = chAffichageClass(lText,"denom")+' '+chAffichageClass(lText,"streetAddress")+' '+chAffichageClass(lText,"postalCode")+' '+chAffichageClass(lText,"addressLocality");
             if (sTel)	{Put_Notification("Call",sTel,1,sText);} else {alert("Sans n° Tel+ "+sText)}
         }
+        break;
+    case 15 : // getcallbridge
+        btnParametres.setAttribute( 'class', 'uncode_text_column' );
+        var cbuser = GM_getValue("cbuser", '');
+        document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
+        document.getElementsByClassName("paramCB")[0].appendChild( btnParametres );
+ //     document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
+        break;
 }
 
 
@@ -750,14 +766,14 @@ function TheDateTime(){
 var headers = document.getElementsByTagName('h2');
 var menu =  '<li class="uppercase bold trackable" style="text-align: center;text-transform: uppercase;font-weight: 700;">CallBridge Settings</li><br>';
     menu += '<li>Utilisateur (email):</li><li><input type="text" id="cbmail" name="email"></li><br>';
-    menu += '<li>Mot de passe:</li><li><input type="text" id="cbpassword" name="Password"></li><br>';
+    menu += '<li>Mot de passe:</li><li><input type="password" id="cbpassword" name="Password"></li><br>';
     menu += '<li><button id="cbmodepro" type=button title="Vérifier si l\'utilisateur CallBigePro existe">Pro</button> ';
     menu += '<button id="cbmodefree" type=button title="Vérifier si l\'utilisateur CallBigeFree existe">Free</button></li><br>';
     menu += '<li><button id="cbenregistre" type="button" title="Enregistrer le Login + Mot de passe">SAVE</button> ';
     menu += '<button id="cbessai" type="button" title="Envoyer une notification test au smartphone">Test</button> ';
     menu += '<button id="cbclose" type="button" title="Fermer les settings">Fermer</button></li>';
     menu += "<p><br>Aller sur le site <a href='https://getcallbridge.com/fr/appelez-directement-depuis-vos-sites-preferes-avec-callbridge' target='_blank' title='Utilisateur Free? Cliquez-ici pour souscrire à ce plugin'>CallBridge</a></p>";
-
+	menu += "<p  style='text-align: center;font-weight: 90;font-size:8px;'><br>(version "+sVersion+")</p>";
 
 // Create menu
 if (menu !== '') {
