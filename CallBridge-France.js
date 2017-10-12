@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.12
+// @version     1.20
 // @include     http://www.pap.fr/annonce/*
 // @include     https://www.pap.fr/annonce/*
 // @include     https://www.pagesjaunes.fr/recherche/*
@@ -12,12 +12,17 @@
 // @include     http://www.partenaire-europeen.fr/Annonces*
 // @include     https://www.leboncoin.fr/*
 // @include     http://www.seloger.com/annonces/*
+// @include     https://www.seloger.com/annonces/*
 // @include     https://www.paruvendu.fr/*
 // @include     http://www.lesparticuliers.fr/*
+// @include     https://www.lesparticuliers.fr/*
+// @include     https://www.vivastreet.com/*
 // @include     http://www.vivastreet.com/*
 // @include     http://www.topannonces.fr/*
+// @include     https://www.topannonces.fr/*
 // @include     https://zoomcar.fr/*
 // @include     http://www.lacentrale.fr/*
+// @include     https://www.lacentrale.fr/*
 // @include     https://occasion.autoplus.fr/*
 // @include     http://occasion.321auto.com/*
 // @include     https://getcallbridge.com/*
@@ -334,14 +339,14 @@ switch (quSite){
 
     case 7 : // lesparticuliers  ------------------------------------------------------------------------------
        $(document).ready(function() {
-            var sLien0 = document.getElementsByClassName('showNumberBtn');
-            if (sLien0.length>0) {fBtnAppeler(sLien0,'showNumberBtn');}
-            var sLien2 = document.getElementsByClassName('showNumber1Btn');
-        if (sLien2.length>0) {fBtnAppeler(sLien2,'showNumber1Btn');}
-        var sLien3 = document.getElementsByClassName('showNumber2Btn');
-        if (sLien3.length>0) {fBtnAppeler(sLien3,'showNumber2Btn');}
-        var sLien4 = document.getElementsByClassName('showMailBtn');
-        if (sLien4.length>0) {fBtnSetting(sLien4,'showMailBtn');}
+           var sLien0 = document.getElementsByClassName('showNumberBtn');
+           if (sLien0.length>0) {fBtnAppeler(sLien0,'showNumberBtn');}
+           var sLien2 = document.getElementsByClassName('showNumber1Btn');
+           if (sLien2.length>0) {fBtnAppeler(sLien2,'showNumber1Btn');}
+           var sLien3 = document.getElementsByClassName('showNumber2Btn');
+           if (sLien3.length>0) {fBtnAppeler(sLien3,'showNumber2Btn');}
+           var sLien4 = document.getElementsByClassName('showMailBtn');
+           if (sLien4.length>0) {fBtnSetting(sLien4,'showMailBtn');}
        });
         function fBtnAppeler(pLiens,pClass){
             var makers = [];
@@ -366,7 +371,7 @@ switch (quSite){
                     setTimeout(function() {
                         var Notel = pLiens[i].getElementsByClassName('btnText')[0].innerHTML;
                         var Notel2 = document.getElementsByClassName('rsva_number');
-                        if  (Notel2[0]) {var s1=extraitChaine(Notel2[0].innerHTML,2,">");Notel=extraitChaine(s1,1,"<");} // Cas 0899...
+                        if  (Notel2.length>0) {var s1=extraitChaine(Notel2[0].innerHTML,2,">");Notel=extraitChaine(s1,1,"<");} // Cas 0899...
                         var sText = document.getElementById('scrollcontent');
                         var mText = sansBlanc(sText.innerHTML);
                         if (Notel)	{Put_Notification("Call",Notel,1,mText);}
@@ -519,17 +524,14 @@ switch (quSite){
             liens[i].appendChild(makers[i]);
         }
 
-        //FIN DU TEST--------------------- Unquoter les 2 lignes suivantes si Test supprimé
-        //document.getElementsByClassName(lClass)[0].appendChild( btnAppeler );
         document.getElementsByClassName(lClass)[1].appendChild( btnParametres );
 
         // Clic sur "appeler le  numéro"
-        //btnAppeler.onclick=function (){
         function jappelle10(){
             if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
             if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
-            var voirTelephone = document.getElementsByClassName("contact-button")[0].firstElementChild;
-            voirTelephone.setAttribute("class","btn btn-flat telephone");
+            var voirTelephone = document.getElementsByClassName("btn btn-flat telephone modal-trigger")[0].firstElementChild; // contact-button
+ //         voirTelephone.setAttribute("class","btn btn-flat telephone");
             voirTelephone.click();
             setTimeout(function() {
                 var sTel  = document.getElementById("telephone-contact-detail-content").firstElementChild.innerHTML;
@@ -686,7 +688,11 @@ function AjBalise(pBalise,pValeur) {
 
 // Prépare la requete Put_Notification (call ou sms) à envoyer par SendHttp
 function Put_Notification(pCallSms,pPhone,pImmediat,pText) {
-    if (pCallSms.lastIndexOf("!")>=0)      {AfficheToast(pPhone+"<br>"+pText);return;}
+    if (pPhone.indexOf(";")>7) pPhone=extraitChaine(pPhone,1,";");
+    var nPhone=leNumerique(pPhone), cPayant='';
+    if (nPhone.indexOf("089")==0 || nPhone.indexOf("3389")==0|| nPhone.indexOf("+3389")==0 || nPhone.indexOf("003389")==0) {cPayant=' payant.';}
+    if (pCallSms.lastIndexOf("!")>=0 || pImmediat==2)      {AfficheToast(pPhone+"<br>"+pText);return;}
+    if (cPayant>'') pImmediat=0;
     var cbuser = GM_getValue("cbuser", '');
     var cbpassword = GM_getValue("cbpassword", '');
     if (pPhone<=' ') return;
@@ -699,7 +705,7 @@ function Put_Notification(pCallSms,pPhone,pImmediat,pText) {
     requete += AjBalise("pImmediate",pImmediat);			// 1 = appel immédiat    0 = affichage (pour action manuelle de l'utilisateur)
     requete += AjBalise("pRecipients","");			     	// Nom de l'utilisateur (smartphone) qui doit rappeler
     requete += AjBalise("pTitle","CallBridge");				// Titre de la notification
-    requete += AjBalise("pPhones",pPhone);			        // Les n° de téléphone à appeler
+    requete += AjBalise("pPhones",pPhone+cPayant);	        // Les n° de téléphone à appeler
     requete += AjBalise("pText",StringToUTF8(pText));		// Texte optionnel pour l'appelant
     requete += AjBalise("pPost","monkey");					// Poste ayant envoyé la notification
     requete += "</soap:Body></soap:Envelope>";
@@ -724,9 +730,8 @@ function SendHttp(pRequete,pService,pCallBack,pMess) {
 	xmlhttp.onreadystatechange = function() {
 	//	alert("Rd:"+xmlhttp.readyState+" st:"+xmlhttp.status+"  tx:"+xmlhttp.statusText )
 		if (xmlhttp.readyState==4 && xmlhttp.status==200 ) {
-			var lRetour = xmlhttp.responseText;
-			var tChaine = lRetour.split("Result>");
-			var tReponse = tChaine[1].split("</");
+			var lRetour = xmlhttp.responseText,tChaine=[],tReponse=[];
+            if (lRetour.indexOf(":Fault>")>1) {tReponse[0]='Erreur de caractère UTF8';alert(lRetour)} else {tChaine = lRetour.split("Result>");tReponse = tChaine[1].split("</");}
 			if (pCallBack)	{pCallBack(tReponse[0],pMess);}
   	}	};
 	xmlhttp.send(params);
@@ -773,7 +778,9 @@ var menu =  '<li class="uppercase bold trackable" style="text-align: center;text
     menu += '<button id="cbessai" type="button" title="Envoyer une notification test au smartphone">Test</button> ';
     menu += '<button id="cbclose" type="button" title="Fermer les settings">Fermer</button></li>';
     menu += "<p><br>Aller sur le site <a href='https://getcallbridge.com/fr/appelez-directement-depuis-vos-sites-preferes-avec-callbridge' target='_blank' title='Utilisateur Free? Cliquez-ici pour souscrire à ce plugin'>CallBridge</a></p>";
-	menu += "<p  style='text-align: center;font-weight: 90;font-size:8px;'><br>(version "+sVersion+")</p>";
+    menu += "<p><br><a href='https://www.mcleed.net/CallBridgeProWeb?mailto=mcleed.fr@gmail.com%Suite ' target='_blank' title='le plugin ne fonctionne plus sur ce site'>Mail au WebMaster</a></p>";
+    menu += "<p  style='text-align: center;font-weight: 90;font-size:8px;'><br>(version "+sVersion+")</p>";
+    menu=menu.replace("%Suite","&Login="+GM_getValue("cbuser",'')+"&Titre=probleme+plugin"+"&Sujet=un+site+ne+fonctionne+plus"+"&Message="+document.location.href);
 
 // Create menu
 if (menu !== '') {
@@ -930,6 +937,7 @@ cbclose.onclick = function () {
 
 function StringToUTF8(pTexte){
     sEot=String.fromCharCode(4);
+    sNul=String.fromCharCode(0);
     var sText0="", sText1='', sText2=pTexte, sText3='', i=10, t='';
     while (sText0!=sText2 && i>0){
         i--;sText0=sText2;sText1=sText2;
@@ -938,7 +946,11 @@ function StringToUTF8(pTexte){
         sText2=sText1.replace("Ê","ê");sText1=sText2;
         sText2=sText1.replace("&amp;","¤");sText1=sText2;
         sText2=sText1.replace("€","\$");sText1=sText2;
+        sText2=sText1.replace("–","-");sText1=sText2;
+        sText2=sText1.replace("–","-");sText1=sText2;
         sText2=sText1.replace(sEot,"?");sText1=sText2;
+        sText2=sText1.replace(sNul,"?");sText1=sText2;
+        sText2=sText1.replace("%","pct.");sText1=sText2;
     }
     var sortie=unescape(encodeURIComponent(sText2));
     return sortie;
