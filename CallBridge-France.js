@@ -2,30 +2,10 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.20
-// @include     http://www.pap.fr/annonce/*
-// @include     https://www.pap.fr/annonce/*
-// @include     https://www.pagesjaunes.fr/recherche/*
-// @include     https://www.pagesjaunes.fr/pagesblanches/*
-// @include     https://www.pagesjaunes.fr/annuaire/*
-// @include     https://www.pagesjaunes.fr/carte/*
-// @include     http://www.partenaire-europeen.fr/Annonces*
-// @include     https://www.leboncoin.fr/*
-// @include     http://www.seloger.com/annonces/*
-// @include     https://www.seloger.com/annonces/*
-// @include     https://www.paruvendu.fr/*
-// @include     http://www.lesparticuliers.fr/*
-// @include     https://www.lesparticuliers.fr/*
-// @include     https://www.vivastreet.com/*
-// @include     http://www.vivastreet.com/*
-// @include     http://www.topannonces.fr/*
-// @include     https://www.topannonces.fr/*
-// @include     https://zoomcar.fr/*
-// @include     http://www.lacentrale.fr/*
-// @include     https://www.lacentrale.fr/*
-// @include     https://occasion.autoplus.fr/*
-// @include     http://occasion.321auto.com/*
-// @include     https://getcallbridge.com/*
+// @version     1.40
+// @include     http:*
+// @include     https:*
+
 // @author      mcleed
 // @require     http://code.jquery.com/jquery-3.1.0.min.js
 // resource    icon28    https://getcallbridge.com/wp-content/uploads/2017/01/call28.png
@@ -50,7 +30,7 @@ var Imgsettings28="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAB
 var Imgsettings28W="data:image/png;base64,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"
 
 // Quel Site
-var quSite=0;
+var quSite=0,AvecCallto=0,nAlt=0;
 var lUrl = document.location.href;
 if (lUrl.lastIndexOf("//www.pap.fr/")>=0 )                     quSite=1; // de particutiers à particuliers
 if (lUrl.lastIndexOf("//www.pagesjaunes.fr/")>=0)              quSite=2; // pagesjaunes ET pagesblanches
@@ -67,6 +47,7 @@ if (lUrl.lastIndexOf("/occasion.autoplus.fr/")>=0)             quSite=12; // occ
 if (lUrl.lastIndexOf(".321auto.com/")>=0)                      quSite=13; // 321auto
 if (lUrl.lastIndexOf("//www.pagesjaunes.fr/carte")>=0)         quSite=14; // pagesjaunes CARTE
 if (lUrl.lastIndexOf("//getcallbridge.com")>=0)                quSite=15; // getcallbridge
+if (lUrl.lastIndexOf("//app.salesflare.com")>=0)               quSite=16; // salesflare
 
 
 // Bouton APPELER long
@@ -113,7 +94,50 @@ var UneLigne = document.createElement( 'span' );
 var cbuser = GM_getValue("cbuser", '');
 var sVersion=GM_info.script.version;
 
+// hors site les protocoles tel: et callto:
+// protocoles tel:
+var els = document.querySelectorAll("a[href^='tel:']");
+for (var i=0;i<els.length;i++) {
+    els[i].onclick=function() {jAppelle01()};
+    AvecCallto++
+};
+// protocoles callto:
+var els = document.querySelectorAll("a[href^='callto:']");
+for (var i=0;i<els.length;i++) {
+    els[i].onclick=function() {jAppelle01()};
+    AvecCallto++
+};
+// Tel: ou Callto:
+function jAppelle01(){
+    var sTel=texteEntre(document.activeElement.outerHTML,':','"');
+    var sText=chAffichages(document.activeElement.parentElement.innerHTML);
+    if (sTel>'')  {Put_Notification("Call",sTel,1,sText,1);}
+}
+
+
+// pour intercepter ALT+X
+window.addEventListener("keydown", keydown);
+
+
 switch (quSite){
+    case 0: // pas de site connu : on ajoute le bouon settings s'il y a callto:
+        var body = document.getElementsByTagName('body')[0];
+        if (AvecCallto>0) {
+            btnParametres.style.position = 'fixed';
+            btnParametres.style.textTransform = 'uppercase';
+            btnParametres.style.fontWeight = '700';
+            btnParametres.style.color = '#303030';
+            btnParametres.style.fontFamily = '"Open Sans","Arial","Helvetica",sans-serif';
+            btnParametres.style.padding = '10px';
+            btnParametres.style.border = 'thin solid rgb(199,199,199)';
+            btnParametres.style.boxShadow = '0 0 3rem rgba(48,48,48,0.4)';
+            btnParametres.style.borderRadius = '3rem 3rem 3rem 3rem';
+            btnParametres.style.bottom = '100px';
+            btnParametres.style.right = '10px';
+            btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28 + '"> Settings';
+            body.appendChild(btnParametres);
+        }
+        break;
     case 1: // pap.fr ------------------------------------------------------------------------------
         btnAppeler.innerHTML = '<img src="'+ Imgicon28 + '">   Appeler le numéro';
         btnAppel.innerHTML = '<img src="'+ Imgicon28 + '">   Appeler le numéro';
@@ -123,14 +147,19 @@ switch (quSite){
         btnAppeler.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
         btnAppel.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
         btnAppel2.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
-        btnParametres.setAttribute( 'class', 'btn btn-small btn-type-1 btn-icon' );
+        btnParametres.setAttribute( 'style', 'margin-top : 0rem;' );
+        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28 + '"> Settings';
+        btnParametres.setAttribute( 'class', 'btn btn-small dialog-box-handler' ); // btn btn-small btn-type-1 btn-icon
      // Création des boutons callbridge
         var cbuser = GM_getValue("cbuser", '');
+        var pbouton = document.getElementsByClassName("header-tools-box");
+        if (pbouton.length>0) {pbouton[0].appendChild(btnParametres);}
+
         var mbouton = document.getElementsByClassName("btn-display-phone  btn-telephone");
         mbouton[0].appendChild( btnAppeler );
         mbouton[0].appendChild( btnSms );
-        if (mbouton.length>1) {mbouton[1].appendChild( btnAppel );mbouton[1].appendChild( btnParametres );} else {mbouton[0].appendChild( btnParametres );}
-        if (mbouton.length>2) {mbouton[2].appendChild( btnAppel2)}
+        if (mbouton.length>1) {mbouton[1].appendChild(btnAppel)}
+        if (mbouton.length>2) {mbouton[2].appendChild(btnAppel2)}
 
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function ()  {jAppelle1("Call");}
@@ -657,8 +686,49 @@ switch (quSite){
         document.getElementsByClassName("paramCB")[0].appendChild( btnParametres );
  //     document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
         break;
-}
 
+    case 16 : // salesflare : Contacts
+
+        btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28 + '">cb';
+        btnParametres.setAttribute( 'class', 'icon-36 md-font material-icons sf-icon-add' );
+
+        var els = document.getElementsByClassName("no-touch");
+        for (var i=0;i<els.length;i++) {
+            els[i].onclick=function(){jAppelle16()};
+        };
+        var els = document.getElementsByClassName("md-no-style md-button md-ink-ripple");
+        for (var i=0;i<els.length;i++) {
+            els[i].onclick=function(){jAppelle16()};
+        };
+        // ouverture d'un contact
+        function jAppelle16(){
+            setTimeout(function() {
+                var els = document.getElementsByClassName("md-no-style md-button md-ink-ripple");
+                for (var i=0;i<els.length;i++) {
+                    if (els[i].outerHTML.indexOf("callPerson(")>0) {els[i].onclick=function(){jAppelle16_1()}}          // Ajout de l'action CALL:
+                    if (els[i].outerHTML.indexOf('aria-label="Contacts"')>0) {
+                        var tlb = document.getElementsByClassName("md-toolbar-tools");
+                        if (tlb.length>2) tlb[2].appendChild( btnParametres );                                          // Ajout bouton settings "md-toolbar-tools"
+                    }
+                };
+            },1000);
+        }
+        // clic sur le téléphone
+        function jAppelle16_1(){
+            var sText='?', sTel='';
+            var els=document.activeElement.attributes;
+            for (var i=0;i<els.length;i++) {
+                if (els[i].name=="aria-label") sTel=els[i].value;
+            };
+            var els = document.getElementsByClassName("ellipsis flex");
+            for (var i=0;i<els.length;i++) {
+                sText=els[i].innerHTML;
+            };
+            if (sTel) {Put_Notification("Call",sTel,2,sText);}
+            jAppelle16();
+        }
+        break;
+};
 
 
 // ========================================================= utilitaires ==================================================================== utilitaires =========================================
@@ -687,7 +757,11 @@ function AjBalise(pBalise,pValeur) {
 }
 
 // Prépare la requete Put_Notification (call ou sms) à envoyer par SendHttp
-function Put_Notification(pCallSms,pPhone,pImmediat,pText) {
+function Put_Notification(pCallSms,pPhone,pImmediat,pText,pCheck) {
+    if (pCheck && pCheck==1) {
+        var cbcallto=GM_getValue("cbcallto",'');
+        if (cbcallto==true) return '';
+    }
     if (pPhone.indexOf(";")>7) pPhone=extraitChaine(pPhone,1,";");
     var nPhone=leNumerique(pPhone), cPayant='';
     if (nPhone.indexOf("089")==0 || nPhone.indexOf("3389")==0|| nPhone.indexOf("+3389")==0 || nPhone.indexOf("003389")==0) {cPayant=' payant.';}
@@ -715,16 +789,10 @@ function Put_Notification(pCallSms,pPhone,pImmediat,pText) {
 
 // Envoi HTTP effectif en POST (Free ou Pro)
 function SendHttp(pRequete,pService,pCallBack,pMess) {
-    var cbFreePro = GM_getValue("cbFreePro", 0);
-	var params = '';
-    if (cbFreePro===0) pCallBack("Choose CallBridge Free or CallBridgePro");
-    if (cbFreePro==1) params = 'xml='+pRequete+'&action='+"urn:CallBridgeApi/"+pService;
-    if (cbFreePro==2) params = 'xml='+pRequete+'&action='+"urn:CallBridgeProApi/"+pService;
+	var params = 'xml='+pRequete+'&action='+"urn:CallBridgeProApi/"+pService;
 	var xmlhttp;
 	xmlhttp = new XMLHttpRequest();
-	if (cbFreePro==1) xmlhttp.open("POST","https://www.mcleed.net/CallBridgeApi_WEB/awws/CallBridgeApi.awws",true);
-	if (cbFreePro==2) xmlhttp.open("POST","https://www.mcleed.net/CallBridgeProApi_WEB/awws/CallBridgeProApi.awws",true);
-//	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded; charset=UTF-8; ");
+	xmlhttp.open("POST","https://www.mcleed.net/CallBridgeProApi_WEB/awws/CallBridgeProApi.awws",true);
 
 	// au retour de la fonction on indique combien sont envoyés
 	xmlhttp.onreadystatechange = function() {
@@ -770,16 +838,16 @@ function TheDateTime(){
 //Menu Icone theme
 var headers = document.getElementsByTagName('h2');
 var menu =  '<li class="uppercase bold trackable" style="text-align: center;text-transform: uppercase;font-weight: 700;">CallBridge Settings</li><br>';
-    menu += '<li>Utilisateur (email):</li><li><input type="text" id="cbmail" name="email"></li><br>';
+    menu += '<li>Utilisateur (email):</li><li><input type="text" id="cbmail" name="email" style="font-size:16px"></li><br>';
     menu += '<li>Mot de passe:</li><li><input type="password" id="cbpassword" name="Password"></li><br>';
-    menu += '<li><button id="cbmodepro" type=button title="Vérifier si l\'utilisateur CallBigePro existe">Pro</button> ';
-    menu += '<button id="cbmodefree" type=button title="Vérifier si l\'utilisateur CallBigeFree existe">Free</button></li><br>';
-    menu += '<li><button id="cbenregistre" type="button" title="Enregistrer le Login + Mot de passe">SAVE</button> ';
-    menu += '<button id="cbessai" type="button" title="Envoyer une notification test au smartphone">Test</button> ';
-    menu += '<button id="cbclose" type="button" title="Fermer les settings">Fermer</button></li>';
-    menu += "<p><br>Aller sur le site <a href='https://getcallbridge.com/fr/appelez-directement-depuis-vos-sites-preferes-avec-callbridge' target='_blank' title='Utilisateur Free? Cliquez-ici pour souscrire à ce plugin'>CallBridge</a></p>";
-    menu += "<p><br><a href='https://www.mcleed.net/CallBridgeProWeb?mailto=mcleed.fr@gmail.com%Suite ' target='_blank' title='le plugin ne fonctionne plus sur ce site'>Mail au WebMaster</a></p>";
-    menu += "<p  style='text-align: center;font-weight: 90;font-size:8px;'><br>(version "+sVersion+")</p>";
+    menu += "<FORM><INPUT type='checkbox' id='cbcallto' name='cbcallto' value=1>Without notification for 'callto:'<br><br></FORM>"
+    menu += '<li><button id="cbenregistre" type="button" title="Register Login and Password">SAVE</button> ';
+    menu += '<button id="cbessai" type="button" title="Send a test notification to the smartphone">Test</button> ';
+    menu += '<button id="cbclose" type="button" title="Close the settings">Close</button></li>';
+    menu += "<p><br><a href='https://getcallbridge.com/fr/appelez-directement-depuis-vos-sites-preferes-avec-callbridge' target='_blank' title='Free User? Click here to subscribe to this plugin'>Go to CallBridge's website</a></p>";
+    menu += "<p><br><a href='https://www.mcleed.net/CallBridgeProWeb?mailto=mcleed.fr@gmail.com%Suite ' target='_blank' title='if the plugin does not work anymore on this site'>Mail to the WebMaster</a></p>";
+    menu += "<p  style='text-align: center;font-weight:90;font-size:12px;'><br>nb : Alt+X or Alt+Y to send the highlighted text</p>";
+    menu += "<p  style='text-align: center;font-weight:90;font-size:12px;'><br>(version "+sVersion+")</p>";
     menu=menu.replace("%Suite","&Login="+GM_getValue("cbuser",'')+"&Titre=probleme+plugin"+"&Sujet=un+site+ne+fonctionne+plus"+"&Message="+document.location.href);
 
 // Create menu
@@ -801,45 +869,14 @@ if (menu !== '') {
   cbuser.value = GM_getValue("cbuser", '');
   var cbpassword = document.getElementById('cbpassword');
   cbpassword.value = GM_getValue("cbpassword", '');
-  cbAfficheFreeOrPro();
+  var cbcallto = document.getElementById('cbcallto');
+  cbcallto.checked = GM_getValue("cbcallto", '');
 }
 
 // sortie de cbmail avec changement : choix automatique Pro/Free 1/2
 cbmail.onchange = function (){
    SaveLogin();
-   GM_setValue("cbFreePro",1); // en FREE
-   Get_Verif_Email(cbmail_onchange_suite);
-};
-
-// sortie de cbmail avec changement : choix automatique Pro/Free 2/2
-function cbmail_onchange_suite(pTexte){
-   if (pTexte.substring(0,2)=="KO") {GM_setValue("cbFreePro",0);} else {cbAfficheFreeOrPro();return;}
-   cbAfficheFreeOrPro();
-   GM_setValue("cbFreePro",2); // en PRO
-   Get_Verif_Email(MailExiste);
-}
-
-// Quel mode CallBridge Free ou Pro ?
-function cbAfficheFreeOrPro(){
-  var cbFreePro = GM_getValue("cbFreePro", 0);
-  var cbfree = document.getElementById('cbmodefree');
-  if (cbFreePro==1) cbfree.style.backgroundColor="white"; else cbfree.style.backgroundColor='';
-  var cbpro = document.getElementById('cbmodepro');
-  if (cbFreePro==2) cbpro.style.backgroundColor="white"; else cbpro.style.backgroundColor='';
-}
-
-// mettre CallBridge en Free
-cbmodefree.onclick = function () {
-   SaveLogin();
-   GM_setValue("cbFreePro",1);
-   Get_Verif_Email(MailExiste);
-};
-
-// mettre CallBridge en Pro
-cbmodepro.onclick = function () {
-   SaveLogin();
-   GM_setValue("cbFreePro", 2);
-   Get_Verif_Email(MailExiste);
+   Get_Verif_Email();
 };
 
 // Toast <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -868,9 +905,10 @@ if (toast !== '') {
     body.appendChild(toastobj);
 }
 
-
 // Affiche le Toast
 function AfficheToast(pText) {
+//  var sText=pText.replace("<br>",String.fromCharCode(10))
+//  chrome.notifications.create("callbridge",{type:"basic",iconUrl:Imgsettings28W,title:sPopupTitle,message:sText});
     var cbtoast = document.getElementById('cbtoast');
     cbtoast.innerHTML=pText;
     toastobj.style.visibility = 'visible';
@@ -887,7 +925,7 @@ function AfficheToast(pText) {
 }
 
 // Préparer la requete pour Get_Verif_Email
-function Get_Verif_Email(pCallBack){
+function Get_Verif_Email(){
    var cbuser = GM_getValue("cbuser",'');
    var cbpassword = GM_getValue("cbpassword",'');
    var requete;
@@ -896,14 +934,12 @@ function Get_Verif_Email(pCallBack){
    requete += AjBalise("pEmail",cbuser);		   			// Login du compte CallBridge
    requete += AjBalise("pLang","?");						// en anglais
    requete += "</soap:Body></soap:Envelope>";
-   cbAfficheFreeOrPro();
-   SendHttp(requete,"Get_Verif_Email",pCallBack);		// Envoi de la requete en XML et le nom du Service à contacter
+   SendHttp(requete,"Get_Verif_Email",MailExiste);		// Envoi de la requete en XML et le nom du Service à contacter
 }
 
 // Retour Http
 function MailExiste(pTexte){
-    if (pTexte.substring(0,2)=="KO") {GM_setValue("cbFreePro",0);}
-    cbAfficheFreeOrPro();
+    if (pTexte.substring(0,2)=="KO") {AfficheToast("KO this email address does not exist");}
 }
 
 function SaveLogin(){
@@ -911,14 +947,14 @@ function SaveLogin(){
    GM_setValue("cbuser", cbuser.value);
    var cbpassword = document.getElementById('cbpassword');
    GM_setValue("cbpassword", cbpassword.value);
+   var cbcallto = document.getElementById('cbcallto');
+   GM_setValue("cbcallto",cbcallto.checked);
 }
 
 
 // enregistrer les login et password
 cbenregistre.onclick = function () {
    SaveLogin();
-   var cbFreePro = GM_getValue("cbFreePro", 0);
-   if (cbFreePro===0) {alert("Choose a CallBridge or a CallBridgePro account");return;}
    menuobj.style.visibility = 'hidden';
    location.reload();
 };
@@ -1092,16 +1128,56 @@ function sansSpan(pText){
 }
 
 // Donne la 1ère partie numérique
-function leNumerique(pText){
-    var sortie='',cOu=0,cNum=0;
-    for (i=0;i<pText.length;i++){
-        var car=pText.substr(i,1);cNum=0;
-        if (car>' '){
-            if (car>='0' && car<='9')    cNum=1; // le caractere est numérique
-            if (cOu==1 && cNum==0)        cOu=2; // fin de recherche
-            if (cOu==0 && cNum==1)        cOu=1; // début de recherche
-            if (cOu==1 && cNum==1)  sortie+=car;
-        }
-    }
-    return sortie;
+function leNumerique(pText,pDeb){
+  var cars='',car1='',nums='',fin=0,car='',nl=String.fromCharCode(10);
+  if (!pText) return '';
+  if (!pDeb || pDeb<0) pDeb=0;
+  for (i=pDeb,l=pText.length;i<l;i++){
+    car=pText.substr(i,1);fin=0
+    if (car==' ' || car=='.')              continue;
+    if (car=='+' && cars=='')              {car1='00';continue}        // débuter par le caractere + = 00
+    if (car>='0' && car<='9')              {cars+=car1+car;car1='';continue}    // le caractere est numérique
+    if (car=='(' && cars.length>4)         fin=1                       // fin : parenthese trop loin
+    if (car>'9'  && cars>'' || car==nl)    fin=1                       // fin : caractère alpha après des car num
+    if (fin==1 && cars.length>nums.length) {nums=cars;}                // on prend le plus long numérique
+    if (fin==1 && nums>' ' && pDeb>0)      break;                      // sortir si une position de départ a été demandée (et n° tel trouvé)
+    if (fin==1)                            {cars='';car1=''}           // maz
+  }
+  if (cars.length>nums.length)             nums=cars;
+  return nums;
+}
+
+// Extraire le N° de telephone nommé Tel ou Tél ...
+function leNumTel(pText){
+  var sTel='',i=pText.length;
+  var iPos=pText.indexOf("tel");
+  if (iPos<0)  iPos=pText.indexOf("Tel");
+  if (iPos<0)  iPos=pText.indexOf("tél");
+  if (iPos<0)  iPos=pText.indexOf("Tél");
+  if (iPos<0)  iPos=pText.indexOf("TEL");
+  return leNumerique(pText,iPos);
+}
+
+// Texte entre x .. y
+function texteEntre(pText,pGauche,pDroite){
+    var iDeb=pText.indexOf(pGauche);
+    if (iDeb<0) return '2!'+pGauche+'!'+pText;
+    var iFin=pText.indexOf(pDroite,iDeb);
+    if (iFin<0) return '3'+pDroite+'!'+pText;
+    iDeb+=pGauche.length;
+    return pText.substring(iDeb,iFin);
+}
+
+// controle AltX AltY pour envoi vers callbridge
+function keydown(e){
+    if (e.keyCode==18)                {nAlt=1;return ''}   // ALT
+    if (!nAlt==1)                     {nAlt=0;return ''}  // pas ALT
+    if (e.keyCode<88 || e.keyCode>89) {nAlt=0;return ''}  // pas alt+x ni alt+y
+    var sText = window.getSelection().toString();
+    if (sText<='')                    {nAlt=0;return ''}  // pas de texte surligné
+    var sTel=leNumTel(sText);
+    if (sTel=="") {sTel=".";var sCall="Info"} else {var sCall="Call"}
+    if (e.keyCode==88) {Put_Notification(sCall,sTel,1,sText,0)}; // envoyer  le Call AltX
+    if (e.keyCode==89) {Put_Notification(sCall,sTel,0,sText,0)}; // afficher le Call AltY
+    nAlt=0;
 }
