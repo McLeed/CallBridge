@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.40
+// @version     1.41
 // @include     http:*
 // @include     https:*
 
@@ -91,7 +91,7 @@ var UneLigne = document.createElement( 'span' );
 //  UneLigne.setAttribute( 'style', 'margin-top : 1rem;' );
     UneLigne.innerHTML = "<br>";
 
-var cbuser = GM_getValue("cbuser", '');
+var cbuser = GM_getValue("fcbuser", '');
 var sVersion=GM_info.script.version;
 
 // hors site les protocoles tel: et callto:
@@ -151,7 +151,7 @@ switch (quSite){
         btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28 + '"> Settings';
         btnParametres.setAttribute( 'class', 'btn btn-small dialog-box-handler' ); // btn btn-small btn-type-1 btn-icon
      // Création des boutons callbridge
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var pbouton = document.getElementsByClassName("header-tools-box");
         if (pbouton.length>0) {pbouton[0].appendChild(btnParametres);}
 
@@ -460,7 +460,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
         // Création des boutons callbridge
 
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var lClass="kiwii-margin-ver-xxsmall kiwii-table-cell";
         document.getElementsByClassName(lClass)[0].appendChild( btnAppeler1 );
         document.getElementsByClassName(lClass)[1].appendChild( btnAppeler2 );
@@ -496,7 +496,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'btn-secondary w-275 h-40 blue contacterAdv w-190 w-border' );
         btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"><b>   Paramètres CallBridge</b>';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var lClass="span12 border-button-zone";
         var m=0;
         var mbouton = document.getElementsByClassName(lClass)[m];
@@ -525,7 +525,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'btn btn-flat mail ' );
         btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"><b>   Paramètres CallBridge</b>';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var lClass="contact-button";
         var m=0;
         var mbouton = document.getElementsByClassName(lClass)[m];
@@ -589,7 +589,7 @@ switch (quSite){
         btnAppel.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ Imgicon28W + '">  Appeler le numéro      ';
         btnAppeler.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ Imgicon28W + '">  Appeler le numéro';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var mBox = document.getElementsByClassName("boxContent");
         if (mBox.length>0) {mBox[0].appendChild( btnAppeler );mBox[0].appendChild( btnParametres );}
         if (mBox.length>1) {mBox[1].appendChild( btnAppel );mBox[1].appendChild( btnParametres );}
@@ -613,7 +613,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'pa-btn js-show-phone' );
         btnParametres.innerHTML = '<img src="'+ Imgsettings28 + '">Settings CallBridge';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var lClass="pa-contact";
         var m=0;
         var mbouton = document.getElementsByClassName(lClass)[m];
@@ -641,7 +641,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'btn bold' );
         btnParametres.innerHTML = '<img src="'+ Imgsettings28 + '">Settings CallBridge';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         var mBox2 = document.getElementsByClassName("contact_action2");
         if (mBox2.length>0) {mBox2[0].appendChild( btnAppeler );mBox2[0].appendChild( btnParametres );}
         var mBox = document.getElementsByClassName("contact_action");
@@ -667,7 +667,7 @@ switch (quSite){
         break;
     case 14 : // pagesjaunes/carte ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'icon icon-liste' );
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         document.getElementsByClassName("outils")[0].appendChild( btnAppeler );
         btnAppeler.onclick=function(){
             var lTel = document.getElementsByClassName("item bi-contact-tel")[0].innerHTML;
@@ -681,7 +681,7 @@ switch (quSite){
         break;
     case 15 : // getcallbridge
         btnParametres.setAttribute( 'class', 'uncode_text_column' );
-        var cbuser = GM_getValue("cbuser", '');
+        var cbuser = GM_getValue("fcbuser", '');
         document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
         document.getElementsByClassName("paramCB")[0].appendChild( btnParametres );
  //     document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
@@ -759,7 +759,7 @@ function AjBalise(pBalise,pValeur) {
 // Prépare la requete Put_Notification (call ou sms) à envoyer par SendHttp
 function Put_Notification(pCallSms,pPhone,pImmediat,pText,pCheck) {
     if (pCheck && pCheck==1) {
-        var cbcallto=GM_getValue("cbcallto",'');
+        var cbcallto=GM_getValue("fcbcallto",'');
         if (cbcallto==true) return '';
     }
     if (pPhone.indexOf(";")>7) pPhone=extraitChaine(pPhone,1,";");
@@ -767,8 +767,8 @@ function Put_Notification(pCallSms,pPhone,pImmediat,pText,pCheck) {
     if (nPhone.indexOf("089")==0 || nPhone.indexOf("3389")==0|| nPhone.indexOf("+3389")==0 || nPhone.indexOf("003389")==0) {cPayant=' payant.';}
     if (pCallSms.lastIndexOf("!")>=0 || pImmediat==2)      {AfficheToast(pPhone+"<br>"+pText);return;}
     if (cPayant>'') pImmediat=0;
-    var cbuser = GM_getValue("cbuser", '');
-    var cbpassword = GM_getValue("cbpassword", '');
+    var cbuser = GM_getValue("fcbuser", '');
+    var cbpassword = GM_getValue("fcbpassword", '');
     if (pPhone<=' ') return;
     if (!pText || pText<' ') pText="Call from callbridge ..monkey";
     var requete="";
@@ -848,7 +848,7 @@ var menu =  '<li class="uppercase bold trackable" style="text-align: center;text
     menu += "<p><br><a href='https://www.mcleed.net/CallBridgeProWeb?mailto=mcleed.fr@gmail.com%Suite ' target='_blank' title='if the plugin does not work anymore on this site'>Mail to the WebMaster</a></p>";
     menu += "<p  style='text-align: center;font-weight:90;font-size:12px;'><br>nb : Alt+X or Alt+Y to send the highlighted text</p>";
     menu += "<p  style='text-align: center;font-weight:90;font-size:12px;'><br>(version "+sVersion+")</p>";
-    menu=menu.replace("%Suite","&Login="+GM_getValue("cbuser",'')+"&Titre=probleme+plugin"+"&Sujet=un+site+ne+fonctionne+plus"+"&Message="+document.location.href);
+    menu=menu.replace("%Suite","&Login="+GM_getValue("fcbuser",'')+"&Titre=probleme+plugin"+"&Sujet=un+site+ne+fonctionne+plus"+"&Message="+document.location.href);
 
 // Create menu
 if (menu !== '') {
@@ -866,11 +866,11 @@ if (menu !== '') {
   body = document.getElementsByTagName('body')[0];
   body.appendChild(menuobj);
   var cbuser = document.getElementById('cbmail');
-  cbuser.value = GM_getValue("cbuser", '');
+  cbuser.value = GM_getValue("fcbuser", '');
   var cbpassword = document.getElementById('cbpassword');
-  cbpassword.value = GM_getValue("cbpassword", '');
+  cbpassword.value = GM_getValue("fcbpassword", '');
   var cbcallto = document.getElementById('cbcallto');
-  cbcallto.checked = GM_getValue("cbcallto", '');
+  cbcallto.checked = GM_getValue("fcbcallto", '');
 }
 
 // sortie de cbmail avec changement : choix automatique Pro/Free 1/2
@@ -926,8 +926,8 @@ function AfficheToast(pText) {
 
 // Préparer la requete pour Get_Verif_Email
 function Get_Verif_Email(){
-   var cbuser = GM_getValue("cbuser",'');
-   var cbpassword = GM_getValue("cbpassword",'');
+   var cbuser = GM_getValue("fcbuser",'');
+   var cbpassword = GM_getValue("fcbpassword",'');
    var requete;
    requete="<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\"><soap:Body>";
    requete += AjBalise("pDatetime",TheDateTime() );			// Renvoie sous forme :AAAAMMJJhhmmss  Ex: 20170120093425 pour le 20/01/2017 à 09h34m25s
@@ -944,11 +944,11 @@ function MailExiste(pTexte){
 
 function SaveLogin(){
    var cbuser = document.getElementById('cbmail');
-   GM_setValue("cbuser", cbuser.value);
+   GM_setValue("fcbuser", cbuser.value);
    var cbpassword = document.getElementById('cbpassword');
-   GM_setValue("cbpassword", cbpassword.value);
+   GM_setValue("fcbpassword", cbpassword.value);
    var cbcallto = document.getElementById('cbcallto');
-   GM_setValue("cbcallto",cbcallto.checked);
+   GM_setValue("fcbcallto",cbcallto.checked);
 }
 
 
