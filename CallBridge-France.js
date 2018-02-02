@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.41
+// @version     1.45
 // @include     http:*
 // @include     https:*
 
@@ -14,6 +14,8 @@
 // resource    settings28W https://getcallbridge.com/wp-content/uploads/2017/01/settings28W.png
 // @grant       GM_getResourceText
 // @grant       GM_getResourceURL
+// @grant       GM_openInTab
+// @grant       GM_registerMenuCommand
 // @grant       GM_getValue
 // @grant       GM_setValue
 // ==/UserScript==
@@ -30,7 +32,7 @@ var Imgsettings28="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAB
 var Imgsettings28W="data:image/png;base64,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"
 
 // Quel Site
-var quSite=0,AvecCallto=0,nAlt=0;
+var quSite=0,AvecCallto=0,nAlt=0,ParamOuvert=0;
 var lUrl = document.location.href;
 if (lUrl.lastIndexOf("//www.pap.fr/")>=0 )                     quSite=1; // de particutiers à particuliers
 if (lUrl.lastIndexOf("//www.pagesjaunes.fr/")>=0)              quSite=2; // pagesjaunes ET pagesblanches
@@ -86,41 +88,61 @@ var btnParametres = document.createElement( 'button' );
 
 // 1 ligne
 var UneLigne = document.createElement( 'span' );
-//  UneLigne.setAttribute( 'value', 'UneLigne' );
-//  UneLigne.setAttribute( 'id', 'UneLigne' );
-//  UneLigne.setAttribute( 'style', 'margin-top : 1rem;' );
     UneLigne.innerHTML = "<br>";
 
-var cbuser = GM_getValue("fcbuser", '');
-var sVersion=GM_info.script.version;
+var cbuser     = GM_getValue("cbuser",'');
+var sVersion   = GM_info.script.version;
 
 // hors site les protocoles tel: et callto:
 // protocoles tel:
-var els = document.querySelectorAll("a[href^='tel:']");
-for (var i=0;i<els.length;i++) {
-    els[i].onclick=function() {jAppelle01()};
-    AvecCallto++
-};
-// protocoles callto:
-var els = document.querySelectorAll("a[href^='callto:']");
-for (var i=0;i<els.length;i++) {
-    els[i].onclick=function() {jAppelle01()};
-    AvecCallto++
-};
-// Tel: ou Callto:
-function jAppelle01(){
-    var sTel=texteEntre(document.activeElement.outerHTML,':','"');
-    var sText=chAffichages(document.activeElement.parentElement.innerHTML);
-    if (sTel>'')  {Put_Notification("Call",sTel,1,sText,1);}
-}
-
+setTimeout(function() {
+    var els = document.querySelectorAll("a[href^='tel:']");
+    for (var i=0;i<els.length;i++) {
+        els[i].onclick=function() {jAppelle01()};
+        AvecCallto++
+    };
+    // protocoles callto:
+    var els = document.querySelectorAll("a[href^='callto:']");
+    for (var i=0;i<els.length;i++) {
+        els[i].onclick=function() {jAppelle01()};
+        AvecCallto++
+    };
+    // Tel: ou Callto:
+    function jAppelle01(){
+        var sTel=texteEntre(document.activeElement.outerHTML,':','"');
+        var sText=chAffichages(document.activeElement.parentElement.innerHTML);
+//      alert("Tel:"+sTel+" txt:"+sText+" utf8:"+StringToUTF8(sText));return '';
+        if (sTel>'')  {Put_Notification("Call",sTel,1,sText,1);}
+    }
+},3000);
 
 // pour intercepter ALT+X
 window.addEventListener("keydown", keydown);
 
+// Settings sans bouton 'btnParametres'
+GM_registerMenuCommand("Fr.CallBridge - Settings", function openInTab() {
+    win = window.open("https://www.mcleed.net/getcallbridgeweb?frcallbridge=1");
+    win.focus();
+});
+
+// remplissage de la Page Fr.CallBridge - Settings sur https://www.mcleed.net/getcallbridgeweb?frcallbridge=1
+if (lUrl.lastIndexOf("/getcallbridgeweb")>=0 && document.getElementById("lzA2")) {
+    document.getElementById("A2").value=GM_getValue("cbuser",'');
+    document.getElementById("A3").value=GM_getValue("cbpassword",'');
+    document.getElementById("A6_1").checked=GM_getValue('cbcallto');
+    A4.onclick = function () {
+        var cbuser = document.getElementById('A2');
+        GM_setValue("cbuser", cbuser.value);
+        var cbpassword = document.getElementById('A3');
+        GM_setValue("cbpassword", cbpassword.value);
+        var cbcallto = document.getElementById('A6_1');
+        GM_setValue("cbcallto",cbcallto.checked);
+        window.close();
+}; }
+
 
 switch (quSite){
-    case 0: // pas de site connu : on ajoute le bouon settings s'il y a callto:
+    case 0: // pas de site connu : on ajoute le bouton settings s'il y a callto:
         var body = document.getElementsByTagName('body')[0];
         if (AvecCallto>0) {
             btnParametres.style.position = 'fixed';
@@ -151,7 +173,7 @@ switch (quSite){
         btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28 + '"> Settings';
         btnParametres.setAttribute( 'class', 'btn btn-small dialog-box-handler' ); // btn btn-small btn-type-1 btn-icon
      // Création des boutons callbridge
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var pbouton = document.getElementsByClassName("header-tools-box");
         if (pbouton.length>0) {pbouton[0].appendChild(btnParametres);}
 
@@ -460,7 +482,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
         // Création des boutons callbridge
 
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var lClass="kiwii-margin-ver-xxsmall kiwii-table-cell";
         document.getElementsByClassName(lClass)[0].appendChild( btnAppeler1 );
         document.getElementsByClassName(lClass)[1].appendChild( btnAppeler2 );
@@ -496,7 +518,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'btn-secondary w-275 h-40 blue contacterAdv w-190 w-border' );
         btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"><b>   Paramètres CallBridge</b>';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var lClass="span12 border-button-zone";
         var m=0;
         var mbouton = document.getElementsByClassName(lClass)[m];
@@ -525,7 +547,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'btn btn-flat mail ' );
         btnParametres.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgsettings28W + '"><b>   Paramètres CallBridge</b>';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var lClass="contact-button";
         var m=0;
         var mbouton = document.getElementsByClassName(lClass)[m];
@@ -589,7 +611,7 @@ switch (quSite){
         btnAppel.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ Imgicon28W + '">  Appeler le numéro      ';
         btnAppeler.innerHTML = '<img style="vertical-align: middle; ; margin-left : 0.4rem; margin-right : 0.4rem;" src="'+ Imgicon28W + '">  Appeler le numéro';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var mBox = document.getElementsByClassName("boxContent");
         if (mBox.length>0) {mBox[0].appendChild( btnAppeler );mBox[0].appendChild( btnParametres );}
         if (mBox.length>1) {mBox[1].appendChild( btnAppel );mBox[1].appendChild( btnParametres );}
@@ -613,7 +635,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'pa-btn js-show-phone' );
         btnParametres.innerHTML = '<img src="'+ Imgsettings28 + '">Settings CallBridge';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var lClass="pa-contact";
         var m=0;
         var mbouton = document.getElementsByClassName(lClass)[m];
@@ -641,7 +663,7 @@ switch (quSite){
         btnParametres.setAttribute( 'class', 'btn bold' );
         btnParametres.innerHTML = '<img src="'+ Imgsettings28 + '">Settings CallBridge';
         // Création des boutons callbridge
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         var mBox2 = document.getElementsByClassName("contact_action2");
         if (mBox2.length>0) {mBox2[0].appendChild( btnAppeler );mBox2[0].appendChild( btnParametres );}
         var mBox = document.getElementsByClassName("contact_action");
@@ -667,7 +689,7 @@ switch (quSite){
         break;
     case 14 : // pagesjaunes/carte ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'icon icon-liste' );
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         document.getElementsByClassName("outils")[0].appendChild( btnAppeler );
         btnAppeler.onclick=function(){
             var lTel = document.getElementsByClassName("item bi-contact-tel")[0].innerHTML;
@@ -681,7 +703,7 @@ switch (quSite){
         break;
     case 15 : // getcallbridge
         btnParametres.setAttribute( 'class', 'uncode_text_column' );
-        var cbuser = GM_getValue("fcbuser", '');
+        var cbuser = GM_getValue("cbuser", '');
         document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
         document.getElementsByClassName("paramCB")[0].appendChild( btnParametres );
  //     document.getElementsByClassName("paramCB")[0].appendChild( UneLigne );
@@ -736,6 +758,7 @@ switch (quSite){
 
 // Voir la fenetre Settings
 btnParametres.onclick = function () {
+    if (ParamOuvert==0) { CreatSettings();}
     if (menuobj.style.visibility == 'hidden')  {
         menuobj.style.visibility = 'visible';
         document.activeElement.blur();
@@ -759,7 +782,7 @@ function AjBalise(pBalise,pValeur) {
 // Prépare la requete Put_Notification (call ou sms) à envoyer par SendHttp
 function Put_Notification(pCallSms,pPhone,pImmediat,pText,pCheck) {
     if (pCheck && pCheck==1) {
-        var cbcallto=GM_getValue("fcbcallto",'');
+        var cbcallto=GM_getValue("cbcallto",'');
         if (cbcallto==true) return '';
     }
     if (pPhone.indexOf(";")>7) pPhone=extraitChaine(pPhone,1,";");
@@ -767,8 +790,8 @@ function Put_Notification(pCallSms,pPhone,pImmediat,pText,pCheck) {
     if (nPhone.indexOf("089")==0 || nPhone.indexOf("3389")==0|| nPhone.indexOf("+3389")==0 || nPhone.indexOf("003389")==0) {cPayant=' payant.';}
     if (pCallSms.lastIndexOf("!")>=0 || pImmediat==2)      {AfficheToast(pPhone+"<br>"+pText);return;}
     if (cPayant>'') pImmediat=0;
-    var cbuser = GM_getValue("fcbuser", '');
-    var cbpassword = GM_getValue("fcbpassword", '');
+    var cbuser = GM_getValue("cbuser", '');
+    var cbpassword = GM_getValue("cbpassword", '');
     if (pPhone<=' ') return;
     if (!pText || pText<' ') pText="Call from callbridge ..monkey";
     var requete="";
@@ -838,8 +861,8 @@ function TheDateTime(){
 //Menu Icone theme
 var headers = document.getElementsByTagName('h2');
 var menu =  '<li class="uppercase bold trackable" style="text-align: center;text-transform: uppercase;font-weight: 700;">CallBridge Settings</li><br>';
-    menu += '<li>Utilisateur (email):</li><li><input type="text" id="cbmail" name="email" style="font-size:16px"></li><br>';
-    menu += '<li>Mot de passe:</li><li><input type="password" id="cbpassword" name="Password"></li><br>';
+    menu += '<li>User (email):</li><li><input type="text" id="cbmail" name="email" style="font-size:14px"></li><br>';
+    menu += '<li>Password:</li><li><input type="password" id="cbpassword" name="Password"></li><br>';
     menu += "<FORM><INPUT type='checkbox' id='cbcallto' name='cbcallto' value=1>Without notification for 'callto:'<br><br></FORM>"
     menu += '<li><button id="cbenregistre" type="button" title="Register Login and Password">SAVE</button> ';
     menu += '<button id="cbessai" type="button" title="Send a test notification to the smartphone">Test</button> ';
@@ -848,36 +871,56 @@ var menu =  '<li class="uppercase bold trackable" style="text-align: center;text
     menu += "<p><br><a href='https://www.mcleed.net/CallBridgeProWeb?mailto=mcleed.fr@gmail.com%Suite ' target='_blank' title='if the plugin does not work anymore on this site'>Mail to the WebMaster</a></p>";
     menu += "<p  style='text-align: center;font-weight:90;font-size:12px;'><br>nb : Alt+X or Alt+Y to send the highlighted text</p>";
     menu += "<p  style='text-align: center;font-weight:90;font-size:12px;'><br>(version "+sVersion+")</p>";
-    menu=menu.replace("%Suite","&Login="+GM_getValue("fcbuser",'')+"&Titre=probleme+plugin"+"&Sujet=un+site+ne+fonctionne+plus"+"&Message="+document.location.href);
+    menu=menu.replace("%Suite","&Login="+GM_getValue("cbuser",'')+"&Titre=probleme+plugin"+"&Sujet=un+site+ne+fonctionne+plus"+"&Message="+document.location.href);
 
-// Create menu
-if (menu !== '') {
-  menuobj = document.createElement('ul');
-  menuobj.style.position = 'fixed';
-  menuobj.style.top = '57px';
-  menuobj.style.right = '-200px';
-  menuobj.style.padding = '25px';
-  menuobj.style.backgroundColor = '#fff';
-  menuobj.style.zIndex = '6535';
-  //menuobj.style.border = 'solid 3px #f56b2a';
-  menuobj.style.boxShadow = '0 0 3rem rgba(48,48,48,0.4)';
-  menuobj.innerHTML = menu;
-  menuobj.style.visibility = 'hidden';
-  body = document.getElementsByTagName('body')[0];
-  body.appendChild(menuobj);
-  var cbuser = document.getElementById('cbmail');
-  cbuser.value = GM_getValue("fcbuser", '');
-  var cbpassword = document.getElementById('cbpassword');
-  cbpassword.value = GM_getValue("fcbpassword", '');
-  var cbcallto = document.getElementById('cbcallto');
-  cbcallto.checked = GM_getValue("fcbcallto", '');
+// Creation menu Setting Create menu
+function CreatSettings(){
+    if (menu !== '') {
+        menuobj = document.createElement('ul');
+        menuobj.style.position = 'fixed';
+        menuobj.style.top = '57px';
+        menuobj.style.right = '-200px';
+        menuobj.style.padding = '25px';
+        menuobj.style.backgroundColor = '#fff';
+        menuobj.style.zIndex = '6535';
+        //menuobj.style.border = 'solid 3px #f56b2a';
+        menuobj.style.boxShadow = '0 0 3rem rgba(48,48,48,0.4)';
+        menuobj.innerHTML = menu;
+        menuobj.style.visibility = 'hidden';
+        body = document.getElementsByTagName('body')[0];
+        body.appendChild(menuobj);
+        var cbuser = document.getElementById('cbmail');
+        cbuser.value = GM_getValue("cbuser", '');
+        var cbpassword = document.getElementById('cbpassword');
+        cbpassword.value = GM_getValue("cbpassword", '');
+        var cbcallto = document.getElementById('cbcallto');
+        cbcallto.checked = GM_getValue("cbcallto", '');
+        ParamOuvert=1;
+        // sortie de cbmail avec changement : choix automatique Pro/Free 1/2
+        cbmail.onchange = function (){
+        //    SaveLogin();
+        //    Get_Verif_Email();
+        };
+        // enregistrer les login et password
+        cbenregistre.onclick = function () {
+            SaveLogin();
+            Get_Verif_Email();
+            menuobj.style.visibility = 'hidden';
+            location.reload();
+        };
+        // essai d'envoi par callbridge
+        cbessai.onclick = function () {
+            Put_Notification("Call","0607080910",0);
+            menuobj.style.visibility = 'hidden';
+        };
+        // essai d'envoi par callbridge
+        cbclose.onclick = function () {
+            menuobj.style.visibility = 'hidden';
+        };
+    }
 }
 
-// sortie de cbmail avec changement : choix automatique Pro/Free 1/2
-cbmail.onchange = function (){
-   SaveLogin();
-   Get_Verif_Email();
-};
+
 
 // Toast <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 var toast='<li id="cbtoast" style="text-align: center;font-weight: 90;">Event Created</li>';
@@ -926,8 +969,8 @@ function AfficheToast(pText) {
 
 // Préparer la requete pour Get_Verif_Email
 function Get_Verif_Email(){
-   var cbuser = GM_getValue("fcbuser",'');
-   var cbpassword = GM_getValue("fcbpassword",'');
+   var cbuser = GM_getValue("cbuser",'');
+   var cbpassword = GM_getValue("cbpassword",'');
    var requete;
    requete="<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsi=\"http://www.w3.org/1999/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/1999/XMLSchema\"><soap:Body>";
    requete += AjBalise("pDatetime",TheDateTime() );			// Renvoie sous forme :AAAAMMJJhhmmss  Ex: 20170120093425 pour le 20/01/2017 à 09h34m25s
@@ -944,31 +987,12 @@ function MailExiste(pTexte){
 
 function SaveLogin(){
    var cbuser = document.getElementById('cbmail');
-   GM_setValue("fcbuser", cbuser.value);
+   GM_setValue("cbuser", cbuser.value);
    var cbpassword = document.getElementById('cbpassword');
-   GM_setValue("fcbpassword", cbpassword.value);
+   GM_setValue("cbpassword", cbpassword.value);
    var cbcallto = document.getElementById('cbcallto');
-   GM_setValue("fcbcallto",cbcallto.checked);
+   GM_setValue("cbcallto",cbcallto.checked);
 }
-
-
-// enregistrer les login et password
-cbenregistre.onclick = function () {
-   SaveLogin();
-   menuobj.style.visibility = 'hidden';
-   location.reload();
-};
-
-// essai d'envoi par callbridge
-cbessai.onclick = function () {
-   Put_Notification("Call","0607080910",0);
-   menuobj.style.visibility = 'hidden';
-};
-
-// essai d'envoi par callbridge
-cbclose.onclick = function () {
-    menuobj.style.visibility = 'hidden';
-};
 
 
 function StringToUTF8(pTexte){
@@ -986,7 +1010,9 @@ function StringToUTF8(pTexte){
         sText2=sText1.replace("–","-");sText1=sText2;
         sText2=sText1.replace(sEot,"?");sText1=sText2;
         sText2=sText1.replace(sNul,"?");sText1=sText2;
+        sText2=sText1.replace("&nbsp;"," ");sText1=sText2;
         sText2=sText1.replace("%","pct.");sText1=sText2;
+        sText2=sText1.replace("  "," ");sText1=sText2;
     }
     var sortie=unescape(encodeURIComponent(sText2));
     return sortie;
@@ -1172,8 +1198,9 @@ function texteEntre(pText,pGauche,pDroite){
 function keydown(e){
     if (e.keyCode==18)                {nAlt=1;return ''}   // ALT
     if (!nAlt==1)                     {nAlt=0;return ''}  // pas ALT
-    if (e.keyCode<88 || e.keyCode>89) {nAlt=0;return ''}  // pas alt+x ni alt+y
+    if (e.keyCode<88 || e.keyCode>89) {nAlt=0;return ''}  // ni alt+x ni alt+y
     var sText = window.getSelection().toString();
+//    alert(sText);return '';
     if (sText<='')                    {nAlt=0;return ''}  // pas de texte surligné
     var sTel=leNumTel(sText);
     if (sTel=="") {sTel=".";var sCall="Info"} else {var sCall="Call"}
