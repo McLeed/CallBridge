@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.45
+// @version     1.46
 // @include     http:*
 // @include     https:*
 
@@ -98,22 +98,21 @@ var sVersion   = GM_info.script.version;
 setTimeout(function() {
     var els = document.querySelectorAll("a[href^='tel:']");
     for (var i=0;i<els.length;i++) {
-        els[i].onclick=function() {jAppelle01()};
-        AvecCallto++
+        els[i].outerHTML=els[i].outerHTML.replace("tel:","callbridge:");
     };
+
     // protocoles callto:
     var els = document.querySelectorAll("a[href^='callto:']");
     for (var i=0;i<els.length;i++) {
-        els[i].onclick=function() {jAppelle01()};
-        AvecCallto++
+        els[i].outerHTML=els[i].outerHTML.replace("callto:","callbridge:");
     };
-    // Tel: ou Callto:
-    function jAppelle01(){
-        var sTel=texteEntre(document.activeElement.outerHTML,':','"');
-        var sText=chAffichages(document.activeElement.parentElement.innerHTML);
-//      alert("Tel:"+sTel+" txt:"+sText+" utf8:"+StringToUTF8(sText));return '';
-        if (sTel>'')  {Put_Notification("Call",sTel,1,sText,1);}
-    }
+
+    // nouveau protocole callbridge:
+    var els = document.querySelectorAll("a[href^='callbridge:']");
+    for (var i=0;i<els.length;i++) {
+        els[i].onclick=function(){jAppelle01()};
+    };
+
 },3000);
 
 // pour intercepter ALT+X
@@ -1207,4 +1206,12 @@ function keydown(e){
     if (e.keyCode==88) {Put_Notification(sCall,sTel,1,sText,0)}; // envoyer  le Call AltX
     if (e.keyCode==89) {Put_Notification(sCall,sTel,0,sText,0)}; // afficher le Call AltY
     nAlt=0;
+}
+
+function jAppelle01(){
+//  alert(document.activeElement.outerHTML);
+    var sTel=texteEntre(document.activeElement.outerHTML,':','"');
+    var sText=chAffichages(document.activeElement.parentElement.innerHTML);
+//  alert("Tel:"+sTel+"; txt:"+sText+"; utf8:"+StringToUTF8(sText));return '';
+    if (sTel>'')  {Put_Notification("Call",sTel,1,sText,1);}
 }
