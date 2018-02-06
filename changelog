@@ -5,3 +5,7 @@
 * v1.02 ( 30/09/2017 ) : Correction : suite à MàJ du site LeBonCoin
 
 * v1.41 ( 18/12/2017 ) : Correction du nom du cookie
+
+* v1.46 ( 06/02/2018 ) :  - Amélioration de l'intégration des protocols tel: et callto:
+                          - Supression du popup pour choix logiciel d'appel
+                          - Corrections diverses
