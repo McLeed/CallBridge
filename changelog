@@ -9,3 +9,5 @@
 * v1.46 ( 06/02/2018 ) :  - Amélioration de l'intégration des protocols tel: et callto:
                           - Supression du popup pour choix logiciel d'appel
                           - Corrections diverses
+          
+* v1.50 ( 08/12/2018 ) :  - Ajout prise en charge sites DirectMandat/DirectAnnonces (pige immobilière)
