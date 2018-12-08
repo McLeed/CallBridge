@@ -2,7 +2,7 @@
 // @name        France - callbridge
 // @description Ce script ajoute un bouton "Appeler" qui envoie+compose directement l'appel sur le smartphone (IOS/Android) de son choix. Nécessite un compte CallBridge Pro ou CallBridge
 // @namespace   *
-// @version     1.46
+// @version     1.50
 // @include     http:*
 // @include     https:*
 
@@ -32,12 +32,16 @@ var Imgsettings28="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAYAAAB
 var Imgsettings28W="data:image/png;base64,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"
 
 // Quel Site
+
 var quSite=0,AvecCallto=0,nAlt=0,ParamOuvert=0;
+//quSite=GM_getValue("quSite",0)
 var lUrl = document.location.href;
+
 if (lUrl.lastIndexOf("//www.pap.fr/")>=0 )                     quSite=1; // de particutiers à particuliers
 if (lUrl.lastIndexOf("//www.pagesjaunes.fr/")>=0)              quSite=2; // pagesjaunes ET pagesblanches
 if (lUrl.lastIndexOf("//www.partenaire-europeen.fr/")>=0)      quSite=3; // partenaire-europeen
-if (lUrl.lastIndexOf("//www.leboncoin.fr/")>=0)                quSite=4; // leboncoin
+if (lUrl.lastIndexOf(".leboncoin.fr")>=0)                      quSite=4; // leboncoin
+//if (lUrl.lastIndexOf("//cstatic.weborama.fr")>=0)              quSite=4; // leboncoin suite
 if (lUrl.lastIndexOf("/www.seloger.com/")>=0)                  quSite=5; // seloger.com
 if (lUrl.lastIndexOf("/www.paruvendu.fr/")>=0)                 quSite=6; // paruvendu.fr
 if (lUrl.lastIndexOf("/www.lesparticuliers.fr/")>=0)           quSite=7; // lesparticuliers.fr
@@ -50,27 +54,39 @@ if (lUrl.lastIndexOf(".321auto.com/")>=0)                      quSite=13; // 321
 if (lUrl.lastIndexOf("//www.pagesjaunes.fr/carte")>=0)         quSite=14; // pagesjaunes CARTE
 if (lUrl.lastIndexOf("//getcallbridge.com")>=0)                quSite=15; // getcallbridge
 if (lUrl.lastIndexOf("//app.salesflare.com")>=0)               quSite=16; // salesflare
+if (lUrl.lastIndexOf("//www.tripadvisor.fr")>=0)               quSite=17; // tripadvisor
+if (lUrl.lastIndexOf("//www.directmandat.com")>=0)             quSite=18; // directmandat safti
 
+if (lUrl.lastIndexOf("//acdn")>=0)                            {quSite=100;return;} // pub
+if (lUrl.lastIndexOf("//tr.snapchat")>=0)                     {quSite=100;return;} // pub
+if (lUrl.lastIndexOf("//cdn")>=0)                             {quSite=100;return;} // pub
+if (lUrl.lastIndexOf("//deazs")>=0)                           {quSite=100;return;} // pub
+if (lUrl.lastIndexOf("//scontent")>=0)                        {quSite=100;return;} // pub
+if (lUrl.lastIndexOf("//google")>=0)                          {quSite=100;return;} // pub
+
+// console.log(lUrl);
+
+//if (quSite>0) {GM_setValue("quSite",quSite);alert(quSite);
 
 // Bouton APPELER long
 var btnAppeler = document.createElement( 'button' );
   btnAppeler.setAttribute( 'type', 'button' );
   btnAppeler.setAttribute( 'style', 'margin-top : 1rem;' );
-  btnAppeler.setAttribute( 'title', 'avec CallBridge');
+  btnAppeler.setAttribute( 'title', 'with CallBridge');
   btnAppeler.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
 
 // Bouton APPELER court
 var btnAppel = document.createElement( 'button' );
   btnAppel.setAttribute( 'type', 'button' );
   btnAppel.setAttribute( 'style', 'margin-top : 1rem;' );
-  btnAppel.setAttribute( 'title', 'avec CallBridge');
+  btnAppel.setAttribute( 'title', 'with CallBridge');
   btnAppel.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">';
 
 // Bouton APPELER court
 var btnAppel2 = document.createElement( 'button' );
   btnAppel2.setAttribute( 'type', 'button' );
   btnAppel2.setAttribute( 'style', 'margin-top : 1rem;' );
-  btnAppel2.setAttribute( 'title', 'avec CallBridge');
+  btnAppel2.setAttribute( 'title', 'with CallBridge');
   btnAppel2.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">';
 
 // create button ----SMS ----
@@ -89,6 +105,9 @@ var btnParametres = document.createElement( 'button' );
 // 1 ligne
 var UneLigne = document.createElement( 'span' );
     UneLigne.innerHTML = "<br>";
+// 1 Blanc
+var UnBlanc = document.createElement( 'span' );
+    UnBlanc.innerHTML = " ";
 
 var cbuser     = GM_getValue("cbuser",'');
 var sVersion   = GM_info.script.version;
@@ -102,13 +121,13 @@ setTimeout(function() {
     };
 
     // protocoles callto:
-    var els = document.querySelectorAll("a[href^='callto:']");
+    els = document.querySelectorAll("a[href^='callto:']");
     for (var i=0;i<els.length;i++) {
         els[i].outerHTML=els[i].outerHTML.replace("callto:","callbridge:");
     };
 
     // nouveau protocole callbridge:
-    var els = document.querySelectorAll("a[href^='callbridge:']");
+    els = document.querySelectorAll("a[href^='callbridge:']");
     for (var i=0;i<els.length;i++) {
         els[i].onclick=function(){jAppelle01()};
     };
@@ -189,14 +208,13 @@ switch (quSite){
         btnSms.onclick=function ()      {jAppelle1("SMS");}
 
         function jAppelle1(pCall){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
-            var mbouton = document.getElementsByClassName('tel-wrapper hidden')[0];
+            var mbouton = document.getElementsByClassName('tel-wrapper')[0];
             if (!mbouton) {return;}
             var lText=mbouton.innerHTML;
-            var sTel=extraitChaine(lText,1,"<");
-            var mText = document.getElementsByClassName('title')[0].innerHTML;
-            var sText=sansBlanc(mText);
+            var sTel=leNumerique(lText);
+            var mText = document.getElementsByClassName('item-title')[0].innerHTML;
+            var sText=chAffichages(mText);
+            // alert(sTel+" ; "+sText);
             if (sTel>'')	{Put_Notification(pCall,sTel,1,sText);}
             if (m==2) location.reload();
         };
@@ -212,7 +230,7 @@ switch (quSite){
             markers[i] = document.createElement('li');
             markers[i].setAttribute( 'class', 'item plan value');
             markers[i].setAttribute( 'id', 'appeler'+i);
-            markers[i].setAttribute( 'title', 'Avec CallBridge');
+            markers[i].setAttribute( 'title', 'with CallBridge');
             markers[i].innerHTML = '<a class="pj-link"><img style="vertical-align: middle;" src="'+ Imgicon28 + '"><span class="value">Appeler</span></a>';
             uls[i].appendChild(markers[i]);
             markers[i].onclick = function(){ ClicAppeler(i);};	// <----- !!!
@@ -277,8 +295,8 @@ switch (quSite){
 
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function Notification_Call(){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+//         if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+//         if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var mbouton = document.getElementsByClassName('phone-container')[0];
             if (!mbouton) {return;}
             var lText=mbouton.outerHTML;
@@ -291,31 +309,35 @@ switch (quSite){
         break;
 
     case 4: // leboncoin ------------------------------------------------------------------------------
-        btnAppeler.innerHTML = '<img style="vertical-align: middle;" src='+Imgicon28+'>   Appeler le numéro';
-        btnAppeler.setAttribute( 'class', 'button-lightgrey large trackable' );
-        btnParametres.setAttribute( 'class', 'button-mediumgrey large' );
-        btnParametres.setAttribute( 'style', 'margin : 1rem;' );
-        var mbouton = document.getElementsByClassName('button-orange large phoneNumber trackable')[0];
-        var sClass=document.getElementsByClassName('box-grey-light mbs align-center')
-        var m=sClass.length-1;
-        sClass[m].appendChild( btnAppeler );
-        sClass[m].appendChild( btnParametres );
+     // var mBtnMenu = document.getElementsByClassName('clearfix trackable');
+     // console.log("the bon coin : 1");
+        setTimeout(function() {
+            btnAppeler.innerHTML = '<img style="vertical-align: middle;" src='+Imgicon28+'>   Appeler le numéro';
+            btnAppeler.setAttribute( 'class', 'button-lightgrey large trackable' );
+            btnParametres.setAttribute( 'class', 'button-mediumgrey large' );
+            btnParametres.setAttribute( 'style', 'margin : 1rem;' );
 
-        // Clic sur "appeler le  numéro"
-        btnAppeler.onclick=function (){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            var mbouton = document.getElementsByClassName('button-orange large phoneNumber trackable');
-            if (mbouton.length=0) mbouton = document.getElementsByClassName('button-blue large trackable');
-            if (mbouton.length>0) mbouton[0].firstElementChild.click();
-            setTimeout(function() {
-                var Notel = document.getElementsByClassName('phone_number font-size-up');
-                var sText = document.getElementsByClassName('no-border');
-                var sTex2 = document.getElementsByClassName('item_price clearfix')
-                var sTex3 = document.getElementsByClassName('line line_city');
-                var sTex4 = chAffichageClass(sTex3[0].innerHTML,"value");
-                if (Notel)	{Put_Notification("Call",Notel[0].firstElementChild.innerHTML,1,sansBlanc(sText[0].innerHTML)+' '+sansBlanc(chAffichages(sTex2[0].innerHTML))+" "+sTex4);}
-            }, 2000);
-        };
+            var mbouton = document.getElementsByClassName('_2sPVF')[0];
+            var sClass=document.getElementsByClassName('_2sPVF')
+            var m=sClass.length-1; //  alert(sClass[m].outerHTML)
+//          console.log("the bon coin : 2 - "+sClass.length)
+            if (m>=0) {
+//              console.log("the bon coin : 3 - "+m);
+                sClass[m].appendChild( btnAppeler );
+                sClass[m].appendChild( btnParametres );
+
+                // Clic sur "appeler le  numéro"
+                btnAppeler.onclick=function (){
+                    var mbouton = document.getElementsByClassName('_1Ivo6 _3VNQJ _2ar1Z _2k4S8'); // _2sNbI ObuDQ GXQkc _2xk2l');
+                    if (mbouton.length>0) mbouton[0].firstElementChild.click();
+                    setTimeout(function() {
+                        var Notel = document.getElementsByClassName('_1Ivo6 _3VNQJ _2ar1Z _1-5Yr');
+                        var sText = document.getElementsByClassName('_1KQme');
+                        if (Notel) {Put_Notification("Call",chAffichages(Notel[0].innerHTML),1,sText[0].innerHTML);}
+                    },2000);
+                };
+            };
+        },2000);
         break;
 
     case 5 : // seloger.com  ------------------------------------------------------------------------------
@@ -329,8 +351,8 @@ switch (quSite){
 
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function (){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+//          if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+//          if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var mbouton = document.getElementsByClassName('btn-phone b-btn b-second fi fi-phone tagClick')[0];
             if (!mbouton) {return;}
             var lText=mbouton.outerHTML;
@@ -366,7 +388,7 @@ switch (quSite){
         btnAppel2.onclick=function (){jAppelle6(1)};
 
         function jAppelle6(nOuvre){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+ //         if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
             var mbouton = document.getElementsByClassName('btndetails14_contact tel_contact');
 //          if (mbouton.length<1)  mbouton = document.getElementsByClassName('btndetails14_contact tel_contact basauto_contact flol');
             if (mbouton.length>0 && nOuvre) {mbouton[0].firstElementChild.click();}
@@ -404,7 +426,7 @@ switch (quSite){
                 makers[i] = document.createElement( 'button' );
                 makers[i].setAttribute( 'type', 'button' );
                 makers[i].setAttribute( 'style', 'margin-top : 1rem;' );
-                makers[i].setAttribute( 'title', 'avec CallBridge');
+                makers[i].setAttribute( 'title', 'with CallBridge');
                 makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '"> Appeler Numéro';
                 makers[i].setAttribute( 'class', 'btn green icn-only poplight scrollToTopButton' );
                 makers[i].style.fontWeight = '300';
@@ -415,7 +437,7 @@ switch (quSite){
                 makers[i].style.border = '0px';
                 pLiens[i].appendChild(makers[i]);
                 makers[i].onclick=function (){
-                    if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+  //                if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
                     var mbouton = document.getElementsByClassName(pClass)[i];
                     if (mbouton) {mbouton.firstElementChild.click();}
                     setTimeout(function() {
@@ -467,14 +489,14 @@ switch (quSite){
         var btnAppeler1 = document.createElement( 'button' );
         btnAppeler1.setAttribute( 'type', 'button' );
         btnAppeler1.setAttribute( 'style', 'margin-top : 0rem;' );
-        btnAppeler1.setAttribute( 'title', 'avec CallBridge');
+        btnAppeler1.setAttribute( 'title', 'with CallBridge');
         btnAppeler1.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
         btnAppeler1.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28 + '"><a>   Appeler le numéro</a>';
 
         var btnAppeler2 = document.createElement( 'button' );
         btnAppeler2.setAttribute( 'type', 'button' );
         btnAppeler2.setAttribute( 'style', 'margin-top : 0rem;' );
-        btnAppeler2.setAttribute( 'title', 'avec CallBridge');
+        btnAppeler2.setAttribute( 'title', 'with CallBridge');
         btnAppeler2.setAttribute( 'class', 'kiwii-btn kiwii-btn-large' );
         btnAppeler2.innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28 + '"><a>   Appeler le numéro</a>';
 
@@ -492,8 +514,8 @@ switch (quSite){
         btnAppeler2.onclick=function (){ Appeler()}
 
         function Appeler(){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+  //        if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+  //        if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var bbouton = document.getElementsByClassName('phone_link phone_link_right')[0];
             bbouton.click();
             var mbouton = document.getElementsByClassName('vs-phone-button kiwii-font-weight-bold kiwii-position-relative kiwii-padding-left-large')[0];
@@ -528,9 +550,9 @@ switch (quSite){
 
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function (){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
-            var mbouton = document.getElementsByClassName('seeNumber btn-secondary w-275 h-40 blue contacterAdv w-190 w-border')[0];
+  //        if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+  //        if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+            var mbouton = document.getElementsByClassName('span12 border-button-zone')[0];
             if (mbouton) {mbouton.firstElementChild.click();}
             setTimeout(function() {
                 var Notel = document.getElementsByClassName('font-15 tatiana')[1].innerHTML;
@@ -540,6 +562,7 @@ switch (quSite){
                 if (Notel)	{Put_Notification("Call",Notel,1,s2+" "+sansBlanc(s4));}
             }, 2000);
         };
+
         break;
     case 10 : // zoomcar.fr ------------------------------------------------------------------------------
         btnAppeler.setAttribute( 'class', 'btn btn-flat telephone ' ); // modal-trigger
@@ -561,7 +584,7 @@ switch (quSite){
             makers[i] = document.createElement( 'button' );
             makers[i].setAttribute( 'type', 'button' );
             makers[i].setAttribute( 'style', 'margin-top : 1rem;' );
-            makers[i].setAttribute( 'title', 'avec CallBridge');
+            makers[i].setAttribute( 'title', 'with CallBridge');
             makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">   Appeler le numéro';
             makers[i].setAttribute( 'class', 'btn btn-flat telephone ' );
             makers[i].style.fontWeight = '300';
@@ -578,8 +601,8 @@ switch (quSite){
 
         // Clic sur "appeler le  numéro"
         function jappelle10(){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+ //         if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+ //         if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var voirTelephone = document.getElementsByClassName("btn btn-flat telephone modal-trigger")[0].firstElementChild; // contact-button
  //         voirTelephone.setAttribute("class","btn btn-flat telephone");
             voirTelephone.click();
@@ -619,8 +642,8 @@ switch (quSite){
         btnAppeler.onclick=function (){ jAppelle11() }
         btnAppel.onclick=function (){ jAppelle11() }
         function jAppelle11(){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+ //         if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+ //         if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var sTel = document.getElementsByClassName("phoneNumber1")[0].firstElementChild.innerHTML;
             var sText = document.getElementsByClassName("iophfzp")[0].firstElementChild.innerHTML;
             sText += " "+document.getElementsByClassName("versionTxt txtGrey7C sizeC mB10 hiddenPhone")[0].innerHTML;
@@ -645,8 +668,8 @@ switch (quSite){
 
         // Clic sur "appeler le  numéro"
         btnAppeler.onclick=function (){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+  //        if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+  //        if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var sTel = document.getElementsByClassName("pa-btn  js-phone")[1].innerHTML;
             var sText = document.getElementsByClassName("pa-make-model")[0].innerHTML;
             sText += " "+document.getElementsByClassName("pa-car")[0].innerHTML;
@@ -672,8 +695,8 @@ switch (quSite){
         btnAppel.onclick=function (){   jAppelle13() }
 
         function jAppelle13(){
-            if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
-            if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
+  //        if (cbuser<=' ') {menuobj.style.visibility = 'visible';return;}
+  //        if (menuobj.style.visibility=='visible') {menuobj.style.visibility='hidden';}
             var voirTelephone = document.getElementsByClassName("bouton btn-red")[0].firstElementChild;
             voirTelephone.click();
             setTimeout(function() {
@@ -749,11 +772,63 @@ switch (quSite){
             jAppelle16();
         }
         break;
+    case 17 : // www.tripadvisor.fr  ------------------------------------------------------------------------------
+   //   btnAppel.setAttribute( 'class', 'ui_icon phone' );
+        var nPhone=document.getElementsByClassName("heading_title");
+        if (nPhone.length>0) {
+            nPhone[0].appendChild( UnBlanc );
+            nPhone[0].appendChild( btnAppel );
+            btnAppel.onclick=function(){ jAppelle17() };
+        };
+        var xPhone=document.getElementsByClassName("ui_icon phone");
+        if (xPhone.length>0) {
+        //  xPhone[0].setAttribute=('title','with CallBridge');
+            xPhone[0].onclick=function(){ jAppelle17() };
+        };
+        function jAppelle17(){
+            var mbouton = document.getElementsByClassName('blEntry phone');
+            var sTel=chAffichages(mbouton[0].innerHTML);
+            var mtexte = document.getElementsByClassName('heading_title');
+            var sText=chAffichages(mtexte[0].outerHTML);
+            var mtext2 = document.getElementsByClassName('blEntry address  clickable colCnt2');
+            if (mtext2) sText+=chAffichages(mtext2[0].outerHTML);
+            // alert("Call "+sTel+" "+sText);
+            if (mbouton)  {Put_Notification("Call",sTel,1,sText);}
+        };
+
+        break;
+    case 18: // http://www.directmandat.com/ safti.fr  ------------------------------------------------------------------------------
+        var sRc=String.fromCharCode(10);
+        var mOnglets = document.getElementsByClassName('detaOnglets');
+        var makers = [];
+        for (var i=0;i<mOnglets.length;i++) {
+
+            var mOnglet=document.getElementsByClassName('detaOnglets')[i];
+            var mText=document.getElementsByClassName('detaTexts')[i];
+            var lTexte=chAffichages(mText.outerHTML);
+            var sTel=extraitChaine(lTexte,2,sRc);sTel=sansEspace(sTel);
+
+
+            makers[i]=document.createElement('button');
+            makers[i].setAttribute( 'type', 'button' );
+            makers[i].setAttribute( 'style', 'margin-top : 1rem;' );
+            makers[i].setAttribute( 'title', sTel);
+            makers[i].innerHTML = '<img style="vertical-align: middle;" src="'+ Imgicon28W + '">'+sTel;
+            makers[i].onclick=function () {Put_Notification("Call",sTel,1,"") };
+
+            mText.outerHTML=mText.outerHTML.replace(sTel,'<a href="callto:'+sTel+'" title="Callbridge:'+sTel+'";>'+sTel+'</a>');
+//          mOnglet.append(makers[i]);
+
+        };
+        break;
+
 };
 
 
 // ========================================================= utilitaires ==================================================================== utilitaires =========================================
 // ========================================================= utilitaires ==================================================================== utilitaires =========================================
+
+
 
 // Voir la fenetre Settings
 btnParametres.onclick = function () {
@@ -773,8 +848,10 @@ btnParametres.onclick = function () {
 };
 
 // retourne la balise et la valeur sous la forme : <Balise  xsd:type="xsd:string">Valeur</Balise>
-function AjBalise(pBalise,pValeur) {
-	var sRetour = "<"+pBalise+"  xsd:type=\"xsd:string\" >"+pValeur+"</"+pBalise+">";
+function AjBalise(pBalise,pValeur,pExt) {
+    var sValeur=encodeURIComponent(pValeur);
+    if (pExt) sValeur=encodeURIComponent(sValeur);
+	var sRetour = "<"+pBalise+"  xsd:type=\"xsd:string\" >"+sValeur+"</"+pBalise+">";
 	return sRetour;
 }
 
@@ -801,8 +878,8 @@ function Put_Notification(pCallSms,pPhone,pImmediat,pText,pCheck) {
     requete += AjBalise("pImmediate",pImmediat);			// 1 = appel immédiat    0 = affichage (pour action manuelle de l'utilisateur)
     requete += AjBalise("pRecipients","");			     	// Nom de l'utilisateur (smartphone) qui doit rappeler
     requete += AjBalise("pTitle","CallBridge");				// Titre de la notification
-    requete += AjBalise("pPhones",pPhone+cPayant);	        // Les n° de téléphone à appeler
-    requete += AjBalise("pText",StringToUTF8(pText));		// Texte optionnel pour l'appelant
+    requete += AjBalise("pPhones",PlusEnDol(pPhone+cPayant));// Les n° de téléphone à appeler
+    requete += AjBalise("pText",pText,1);		            // Texte optionnel pour l'appelant (Ext)
     requete += AjBalise("pPost","monkey");					// Poste ayant envoyé la notification
     requete += "</soap:Body></soap:Envelope>";
     var sFonction="Put_Notification_"+pCallSms;
@@ -993,35 +1070,6 @@ function SaveLogin(){
    GM_setValue("cbcallto",cbcallto.checked);
 }
 
-
-function StringToUTF8(pTexte){
-    sEot=String.fromCharCode(4);
-    sNul=String.fromCharCode(0);
-    var sText0="", sText1='', sText2=pTexte, sText3='', i=10, t='';
-    while (sText0!=sText2 && i>0){
-        i--;sText0=sText2;sText1=sText2;
-        sText2=sText1.replace("È","è");sText1=sText2;
-        sText2=sText1.replace("É","é");sText1=sText2;
-        sText2=sText1.replace("Ê","ê");sText1=sText2;
-        sText2=sText1.replace("&amp;","¤");sText1=sText2;
-        sText2=sText1.replace("€","\$");sText1=sText2;
-        sText2=sText1.replace("–","-");sText1=sText2;
-        sText2=sText1.replace("–","-");sText1=sText2;
-        sText2=sText1.replace(sEot,"?");sText1=sText2;
-        sText2=sText1.replace(sNul,"?");sText1=sText2;
-        sText2=sText1.replace("&nbsp;"," ");sText1=sText2;
-        sText2=sText1.replace("%","pct.");sText1=sText2;
-        sText2=sText1.replace("  "," ");sText1=sText2;
-    }
-    var sortie=unescape(encodeURIComponent(sText2));
-    return sortie;
-}
-
-function UTF8ToAscii(pTexte){
-	var sortie=decodeURIComponent(escape(pTexte));
-	return sortie;
-}
-
 function chBalise(pText,pBalise,pNeme){
     var sBalise=pBalise+'="',nNeme=1, n=0;
     var iDeb=0, iFin=0, F=1, L=sBalise.length;
@@ -1079,26 +1127,47 @@ function sansRC(pText){
 
 // on divise la chaine pText avec le séparateur (",")
 function extraitChaine(pText,pIndice,pSep){
-    var sChaines=[], j=1, L=pSep.length, s1='';
-    sChaines[j]='';sChaines[pIndice]='';
-    for (i=0;i<pText.length;i++) {
-        if (pText.substr(i,L)==pSep)  {j++;sChaines[j]='';} else {sChaines[j]+=pText.substr(i,1);}
+    var sChaines=[], j0=1, L=pSep.length, s1='',i0=0;
+    sChaines[j0]='';sChaines[pIndice]='';
+    for (i0=0;i0<pText.length;i0++) {
+        if (pText.substr(i0,L)==pSep)  {j0++;sChaines[j0]='';} else {sChaines[j0]+=pText.substr(i0,1);}
     }
     if (sChaines[pIndice]==='') {s1=' ';} else {s1=sChaines[pIndice].replace("&nbsp;"," ");}
     return s1;
 }
 
+// Sans Espaces devant et derrière
+function sansEspace(pText){
+    var s1='', i0=0, j0=0, k0=0;
+    // Dernier non blanc
+    for (i0=0;i0<pText.length;i0++) {
+        if (pText.substr(i0,1)>" ")           {k0=i0};
+    }
+    // les non blancs de l'intérieur
+    for (i0=0;i0<=k0;i0++) {
+        if (pText.substr(i0,1)>" ") {j0=1};
+        if (j0>0) {s1+=pText.substr(i0,1)};
+    }
+
+    return s1;
+}
+
+
 // Tout ce qui est affiché <balise>..affiché..</balise>
 function chAffichages(pText){
-    var j=0,k=0,sortie='',sText2='',k=0;
-    for (i=0;i<pText.length;i++){
-        if (pText.substr(i,1)=='>')  {k=1;j=1;i++;}
-        if (pText.substr(i,1)=='<')  {k=1;j=0;i++;}
-        if (j==1) sortie+=pText.substr(i,1);
+    var j0=0,k0=0,sortie='',sText2='',sText3='',i0=0;
+    for (i0=0;i0<pText.length;i0++){
+        if (pText.substr(i0,1)=='>')  {k0=1;j0=1;i0++;}
+        if (pText.substr(i0,1)=='<')  {k0=1;j0=0;i0++;}
+        if (j0==1 && pText.charCodeAt(i0)!='9') sortie+=pText.charAt(i0);
     }
-    if (k=0) sortie=pText;
-    sText2=sortie.replace("&amp;","&");sortie=sText2;
-    sText2=sortie.replace("&amp;","&");sortie=sText2;
+    if (k0=0) sortie=pText;
+    do {
+      sText3=sortie;
+      sText2=sortie.replace("&amp;","&");sortie=sText2;
+      sText2=sortie.replace("&nbsp;"," ");sortie=sText2;
+    } while (sortie!=sText3)
+
     return sortie;
 }
 
@@ -1212,6 +1281,12 @@ function jAppelle01(){
 //  alert(document.activeElement.outerHTML);
     var sTel=texteEntre(document.activeElement.outerHTML,':','"');
     var sText=chAffichages(document.activeElement.parentElement.innerHTML);
-//  alert("Tel:"+sTel+"; txt:"+sText+"; utf8:"+StringToUTF8(sText));return '';
     if (sTel>'')  {Put_Notification("Call",sTel,1,sText,1);}
 }
+
+function PlusEnDol(pText){
+  var sText2=pText.replace("+","$")
+  return sText2;
+
+}
+
